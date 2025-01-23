@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/favorite_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+        android:title="@string/biblioteca" />
+</menu>
