@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.novelight.application"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.novelight.application"
@@ -32,6 +32,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    dataBinding {
+        enable = true
     }
 }
 
