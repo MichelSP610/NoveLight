@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.novelight.application.databinding.ActivityMainBinding
 
@@ -38,5 +39,14 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ConfigActivity::class.java)
             startActivity(intent)
         }
+
+        val bottomNavView = binding.bottomNav
+        bottomNavView.setupWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        // replace navigation up button with nav drawer button when on start destination
+        return NavigationUI.navigateUp(navController, appBarConfig)
+
     }
 }
