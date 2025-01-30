@@ -1,11 +1,6 @@
 package com.novelight.application
 
-import android.app.SearchManager
-import android.content.ComponentName
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
 import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.novelight.application.databinding.ActivityMainBinding
+import com.novelight.application.models.MyOnQueryTextListener
 
 
 class MainActivity : AppCompatActivity() {
@@ -87,8 +83,10 @@ class MainActivity : AppCompatActivity() {
         binding.mainToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.librarySearch -> {
-                    val searchView = binding.mainToolbar.menu.findItem(R.id.librarySearch).actionView as SearchView
-                    searchView.setOnQueryTextListener(MyQueryTextListener())
+                    val searchMenuItem = binding.mainToolbar.menu.findItem(R.id.librarySearch)
+                    val searchView = searchMenuItem.actionView as SearchView
+                    searchMenuItem.expandActionView()
+                    searchView.setOnQueryTextListener(MyOnQueryTextListener())
                     true
                 }
                 R.id.settings -> {
@@ -160,16 +158,4 @@ class MainActivity : AppCompatActivity() {
         // replace navigation up button with nav drawer button when on start destination
         return NavigationUI.navigateUp(navController, appBarConfig)
     }
-}
-class MyQueryTextListener: SearchView.OnQueryTextListener {
-    override fun onQueryTextSubmit(p0: String?): Boolean {
-        Log.d("Caracola", p0.toString())
-        return false
-    }
-
-    override fun onQueryTextChange(p0: String?): Boolean {
-        Log.d("adios", p0.toString())
-        return false
-    }
-
 }
