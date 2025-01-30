@@ -1,8 +1,12 @@
 package com.novelight.application
 
+import android.app.SearchManager
+import android.content.ComponentName
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.Menu
+import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -53,22 +57,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun goToSettingsFragment() {
+    private fun goToSettingsFragment(actionId: Int) {
         binding.mainToolbar.menu.forEach { it.isVisible = false }
-        when (navController.currentDestination!!.id) {
-            R.id.libraryFragment -> {
-                navController.navigate(R.id.action_libraryFragment_to_configFragment3)
-            }
-            R.id.updatesFragment -> {
-                navController.navigate(R.id.action_updatesFragment_to_configFragment3)
-            }
-            R.id.historyFragment -> {
-                navController.navigate(R.id.action_historyFragment_to_configFragment3)
-            }
-            R.id.exploreFragment -> {
-                navController.navigate(R.id.action_exploreFragment_to_configFragment3)
-            }
-        }
+        navController.navigate(actionId)
     }
 
     private fun onFragmentChange(destination: NavDestination) {
@@ -79,6 +70,12 @@ class MainActivity : AppCompatActivity() {
             R.id.updatesFragment -> {
                 fragmentUpdatesMenuOptions()
             }
+            R.id.historyFragment -> {
+                fragmentHistorialMenuOptions()
+            }
+            R.id.exploreFragment -> {
+                fragmentExplorarMenuOptions()
+            }
         }
 
         binding.mainToolbar.menu.findItem(R.id.settings).isVisible = homeFragments.contains(destination.id)
@@ -88,11 +85,18 @@ class MainActivity : AppCompatActivity() {
         showToolBarGroup(R.id.libraryGroup)
 
         binding.mainToolbar.setOnMenuItemClickListener { menuItem ->
-            if (R.id.settings == menuItem.itemId) {
-                goToSettingsFragment()
-                true
+            when (menuItem.itemId) {
+                R.id.librarySearch -> {
+                    val searchView = binding.mainToolbar.menu.findItem(R.id.librarySearch).actionView as SearchView
+                    searchView.setOnQueryTextListener(MyQueryTextListener())
+                    true
+                }
+                R.id.settings -> {
+                    goToSettingsFragment(R.id.action_libraryFragment_to_configFragment3)
+                    true
+                }
+                else -> false
             }
-            false
         }
     }
 
@@ -101,12 +105,29 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.favourite -> {
-                    goToSettingsFragment()
+                R.id.updatesTest -> {
+                    goToSettingsFragment(R.id.action_updatesFragment_to_configFragment3)
                     true
                 }
                 R.id.settings -> {
-                    goToSettingsFragment()
+                    goToSettingsFragment(R.id.action_updatesFragment_to_configFragment3)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun fragmentHistorialMenuOptions() {
+        showToolBarGroup(R.id.historyGroup)
+
+        binding.mainToolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.historyTest ->  {
+                    true
+                }
+                R.id.settings -> {
+                    goToSettingsFragment(R.id.action_historyFragment_to_configFragment3)
                     true
                 }
                 else -> false
@@ -115,16 +136,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fragmentExplorarMenuOptions() {
-        showToolBarGroup(R.id.exploreFragment)
+        showToolBarGroup(R.id.exploreGroup)
 
         binding.mainToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.test -> {
-
+                R.id.exploreTest -> {
                     true
                 }
                 R.id.settings -> {
-                    goToSettingsFragment()
+                    goToSettingsFragment(R.id.action_exploreFragment_to_configFragment3)
                     true
                 }
                 else -> false
@@ -140,4 +160,16 @@ class MainActivity : AppCompatActivity() {
         // replace navigation up button with nav drawer button when on start destination
         return NavigationUI.navigateUp(navController, appBarConfig)
     }
+}
+class MyQueryTextListener: SearchView.OnQueryTextListener {
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        Log.d("Caracola", p0.toString())
+        return false
+    }
+
+    override fun onQueryTextChange(p0: String?): Boolean {
+        Log.d("adios", p0.toString())
+        return false
+    }
+
 }

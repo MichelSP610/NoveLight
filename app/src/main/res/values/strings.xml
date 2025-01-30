@@ -7,4 +7,6 @@
     <string name="historial">Historial</string>
     <string name="explorar">Explorar</string>
     <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
 </resources>

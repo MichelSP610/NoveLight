@@ -3,19 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:id="@+id/libraryGroup">
+        <item
+            android:id="@+id/librarySearch"
+            android:icon="@drawable/search_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/search"
+            app:actionViewClass="android.widget.SearchView"
+            app:showAsAction="collapseActionView|always" />
+        <item
+            android:id="@+id/librarySort"
+            android:icon="@drawable/sort_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/sort"
+            app:showAsAction="ifRoom" />
     </group>
 
     <group android:id="@+id/updatesGroup">
         <item
-            android:id="@+id/favourite"
-            android:icon="@drawable/favorite_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:id="@+id/updatesTest"
+            android:icon="@drawable/sync_alt_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group android:id="@+id/historyGroup">
+        <item
+            android:id="@+id/historyTest"
+            android:icon="@drawable/history_24dp_e8eaed_fill0_wght400_grad0_opsz24"
             android:title="@string/settings"
             app:showAsAction="ifRoom" />
     </group>
 
     <group android:id="@+id/exploreGroup">
         <item
-            android:id="@+id/test"
+            android:id="@+id/exploreTest"
             android:icon="@drawable/explore_24dp_e8eaed_fill0_wght400_grad0_opsz24"
             android:title="@string/settings"
             app:showAsAction="ifRoom" />
