@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/libraryGroup">
+    </group>
+
+    <group android:id="@+id/updatesGroup">
+        <item
+            android:id="@+id/favourite"
+            android:icon="@drawable/favorite_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group android:id="@+id/exploreGroup">
+        <item
+            android:id="@+id/test"
+            android:icon="@drawable/explore_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+
+
+</menu>

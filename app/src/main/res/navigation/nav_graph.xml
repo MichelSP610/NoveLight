@@ -9,20 +9,41 @@
         android:id="@+id/libraryFragment"
         android:name="com.novelight.application.fragments.mainfragments.LibraryFragment"
         android:label="Biblioteca"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_libraryFragment_to_configFragment3"
+            app:destination="@id/configFragment3" />
+    </fragment>
     <fragment
         android:id="@+id/updatesFragment"
         android:name="com.novelight.application.fragments.mainfragments.UpdatesFragment"
         android:label="Actualitzacions"
-        tools:layout="@layout/fragment_updates" />
+        tools:layout="@layout/fragment_updates" >
+        <action
+            android:id="@+id/action_updatesFragment_to_configFragment3"
+            app:destination="@id/configFragment3" />
+    </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.novelight.application.fragments.mainfragments.HistoryFragment"
         android:label="Historial"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_configFragment3"
+            app:destination="@id/configFragment3" />
+    </fragment>
     <fragment
         android:id="@+id/exploreFragment"
         android:name="com.novelight.application.fragments.mainfragments.ExploreFragment"
         android:label="Explorar"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_explore" >
+        <action
+            android:id="@+id/action_exploreFragment_to_configFragment3"
+            app:destination="@id/configFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/configFragment3"
+        android:name="com.novelight.application.fragments.config.ConfigFragment"
+        android:label="fragment_config"
+        tools:layout="@layout/fragment_config" />
 </navigation>

@@ -8,25 +8,29 @@
         android:layout_height="match_parent"
         tools:context=".Home">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/mainToolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp"
+            android:elevation="10dp"
+            android:paddingTop="20dp"
             app:layout_constraintBottom_toTopOf="@id/mainFragmentView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/settingsButton"
-                android:src="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="20dp"
-                android:background="@null"/>
-        </androidx.appcompat.widget.Toolbar>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mainToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/toolbar_menu">
+            </com.google.android.material.appbar.MaterialToolbar>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/mainFragmentView"
@@ -35,7 +39,7 @@
             android:layout_height="0dp"
             app:defaultNavHost="true"
             app:layout_constraintBottom_toTopOf="@id/bottomNav"
-            app:layout_constraintTop_toBottomOf="@id/mainToolbar"
+            app:layout_constraintTop_toBottomOf="@id/toolBarLayout"
             app:navGraph="@navigation/nav_graph" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
