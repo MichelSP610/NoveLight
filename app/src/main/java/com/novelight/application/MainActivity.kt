@@ -1,11 +1,13 @@
 package com.novelight.application
 
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -15,6 +17,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.novelight.application.databinding.ActivityMainBinding
 import com.novelight.application.models.MyOnQueryTextListener
+import java.lang.reflect.Field
 
 
 class MainActivity : AppCompatActivity() {
@@ -79,14 +82,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun fragmentLibraryMenuOptions() {
         showToolBarGroup(R.id.libraryGroup)
+        setupToolBarSearchView()
 
         binding.mainToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.librarySearch -> {
-                    val searchMenuItem = binding.mainToolbar.menu.findItem(R.id.librarySearch)
-                    val searchView = searchMenuItem.actionView as SearchView
-                    searchMenuItem.expandActionView()
-                    searchView.setOnQueryTextListener(MyOnQueryTextListener())
+                    setupToolBarSearchView()
                     true
                 }
                 R.id.settings -> {
@@ -148,6 +149,29 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun setupToolBarSearchView() {
+        val searchMenuItem = binding.mainToolbar.menu.findItem(R.id.librarySearch)
+        val searchView = searchMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(MyOnQueryTextListener())
+        searchView.isIconified = false
+
+        removeToolBarSearchViewCloseButton()
+
+        searchView.onActionViewCollapsed()
+    }
+
+    private fun removeToolBarSearchViewCloseButton() {
+        val searchMenuItem = binding.mainToolbar.menu.findItem(R.id.librarySearch)
+        val searchView = searchMenuItem.actionView as SearchView
+
+        val searchField: Field = SearchView::class.java.getDeclaredField("mCloseButton")
+        searchField.setAccessible(true)
+        val mSearchCloseButton = searchField.get(searchView) as ImageView
+
+        mSearchCloseButton.isEnabled = false
+        mSearchCloseButton.isVisible = false
     }
 
     private fun showToolBarGroup(id: Int) {
