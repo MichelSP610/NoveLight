@@ -8,7 +8,7 @@
             android:icon="@drawable/search_24dp_e8eaed_fill0_wght400_grad0_opsz24"
             android:title="@string/search"
             app:actionViewClass="android.widget.SearchView"
-            app:showAsAction="collapseActionView|always" />
+            app:showAsAction="ifRoom|collapseActionView" />
         <item
             android:id="@+id/librarySort"
             android:icon="@drawable/sort_24dp_e8eaed_fill0_wght400_grad0_opsz24"

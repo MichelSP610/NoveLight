@@ -2,18 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/libraryFragment"
+        android:enabled="true"
         android:icon="@drawable/favorite_24dp_e8eaed_fill0_wght400_grad0_opsz24"
         android:title="@string/biblioteca" />
     <item
         android:id="@+id/updatesFragment"
+        android:enabled="true"
         android:icon="@drawable/sync_alt_24dp_e8eaed_fill0_wght400_grad0_opsz24"
         android:title="@string/actualitzacions" />
     <item
         android:id="@+id/historyFragment"
+        android:enabled="true"
         android:icon="@drawable/history_24dp_e8eaed_fill0_wght400_grad0_opsz24"
         android:title="@string/historial" />
     <item
         android:id="@+id/exploreFragment"
+        android:enabled="true"
         android:icon="@drawable/explore_24dp_e8eaed_fill0_wght400_grad0_opsz24"
         android:title="@string/explorar" />
 </menu>
