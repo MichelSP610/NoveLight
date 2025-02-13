@@ -22,7 +22,7 @@ class MaterialToolbarDestinationManager(
     }
 
     fun onFragmentChange(destination: NavDestination) {
-        closeSearchViewIfExpanded()
+        closeLibrarySearchViewIfExpanded()
         showToolBarGroup(destination.id)
     }
 
@@ -31,7 +31,21 @@ class MaterialToolbarDestinationManager(
         navController.navigate(actionId)
     }
 
-    private fun closeSearchViewIfExpanded() {
+    private fun setupLibraryToolBarSearchView() {
+        val searchMenuItem = materialToolbar.menu.findItem(R.id.librarySearch)
+        val searchView = searchMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(MyOnQueryTextListener(filterViewModel))
+        searchView.isIconifiedByDefault = false
+
+        val searchCloseButtonId =
+            searchView.context.resources.getIdentifier("android:id/search_close_btn", null, null)
+        val closeButton = searchView.findViewById<ImageView>(searchCloseButtonId)
+        closeButton.setImageResource(R.drawable.blank)
+
+        searchMenuItem.setOnActionExpandListener(MyOnActionExpandListener(searchView))
+    }
+
+    private fun closeLibrarySearchViewIfExpanded() {
         val searchMenuItem = materialToolbar.menu.findItem(R.id.librarySearch)
         if (searchMenuItem.isActionViewExpanded) {
             searchMenuItem.collapseActionView()
@@ -83,20 +97,6 @@ class MaterialToolbarDestinationManager(
                 else -> false
             }
         }
-    }
-
-    private fun setupLibraryToolBarSearchView() {
-        val searchMenuItem = materialToolbar.menu.findItem(R.id.librarySearch)
-        val searchView = searchMenuItem.actionView as SearchView
-        searchView.setOnQueryTextListener(MyOnQueryTextListener(filterViewModel))
-        searchView.isIconifiedByDefault = false
-
-        val searchCloseButtonId =
-            searchView.context.resources.getIdentifier("android:id/search_close_btn", null, null)
-        val closeButton = searchView.findViewById<ImageView>(searchCloseButtonId)
-        closeButton.setImageResource(R.drawable.blank)
-
-        searchMenuItem.setOnActionExpandListener(MyOnActionExpandListener(searchView))
     }
 
     private fun showToolBarGroup(id: Int?) {
