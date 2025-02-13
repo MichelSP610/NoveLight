@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group android:id="@+id/libraryGroup">
+    <group android:id="@id/libraryFragment">
         <item
             android:id="@+id/librarySearch"
             android:icon="@drawable/search_24dp_e8eaed_fill0_wght400_grad0_opsz24"
@@ -14,37 +14,49 @@
             android:icon="@drawable/sort_24dp_e8eaed_fill0_wght400_grad0_opsz24"
             android:title="@string/sort"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/librarySettings"
+            android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
     </group>
 
-    <group android:id="@+id/updatesGroup">
+    <group android:id="@id/updatesFragment">
         <item
             android:id="@+id/updatesTest"
             android:icon="@drawable/sync_alt_24dp_e8eaed_fill0_wght400_grad0_opsz24"
             android:title="@string/settings"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/updatesSettings"
+            android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
     </group>
 
-    <group android:id="@+id/historyGroup">
+    <group android:id="@id/historyFragment">
         <item
             android:id="@+id/historyTest"
             android:icon="@drawable/history_24dp_e8eaed_fill0_wght400_grad0_opsz24"
             android:title="@string/settings"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/historySettings"
+            android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
     </group>
 
-    <group android:id="@+id/exploreGroup">
+    <group android:id="@id/exploreFragment">
         <item
             android:id="@+id/exploreTest"
             android:icon="@drawable/explore_24dp_e8eaed_fill0_wght400_grad0_opsz24"
             android:title="@string/settings"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/exploreSettings"
+            android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/settings"
+            app:showAsAction="ifRoom" />
     </group>
-
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
-        android:title="@string/settings"
-        app:showAsAction="ifRoom" />
-
-
 </menu>
