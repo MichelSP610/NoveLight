@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.novelight.application.R
 import com.novelight.application.databinding.FragmentRegisterBinding
 import com.novelight.application.viewModels.config.sign.SignViewModel
+import kotlinx.coroutines.runBlocking
 
 class RegisterFragment : Fragment() {
 
@@ -24,23 +26,26 @@ class RegisterFragment : Fragment() {
         binding = FragmentRegisterBinding.inflate(inflater)
 
         binding.registerButton.setOnClickListener {
-            register()
+            runBlocking {
+                register()
+            }
         }
 
         return binding.root
     }
 
-    private fun register() {
+    private suspend fun register() {
         val user = binding.inputUser.text.toString()
         val password = binding.inputPassword.text.toString()
-        val confirmPassword = binding.inputConfirmPassword.text.toString();
 
         try {
             checkFieldsNotNull()
             checkEmailFormat()
             checkPasswordConfirmation()
-            signViewModel.registerUser(user, password)
 
+            if (signViewModel.registerUser(user, password)) {
+                findNavController().navigate(R.id.action_registerFragment_to_emailVerificationFragment)
+            }
         } catch (e: Exception) {
             Logger.e(tag = "ERROR", messageString = e.message!!)
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()

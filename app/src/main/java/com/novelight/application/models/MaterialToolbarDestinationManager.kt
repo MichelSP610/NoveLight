@@ -41,6 +41,7 @@ class MaterialToolbarDestinationManager(
             searchView.context.resources.getIdentifier("android:id/search_close_btn", null, null)
         val closeButton = searchView.findViewById<ImageView>(searchCloseButtonId)
         closeButton.setImageResource(R.drawable.blank)
+        closeButton.isEnabled = false
 
         searchMenuItem.setOnActionExpandListener(MyOnActionExpandListener(searchView))
     }
