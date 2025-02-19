@@ -45,5 +45,13 @@
         android:id="@+id/configFragment3"
         android:name="com.novelight.application.fragments.config.ConfigFragment"
         android:label="fragment_config"
-        tools:layout="@layout/fragment_config" />
+        tools:layout="@layout/fragment_config" >
+        <action
+            android:id="@+id/action_configFragment3_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.novelight.application.fragments.config.sign.RegisterFragment"
+        android:label="RegisterFragment" />
 </navigation>
