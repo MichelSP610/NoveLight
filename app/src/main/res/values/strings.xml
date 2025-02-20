@@ -12,4 +12,10 @@
     <string name="user">User</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
+    
+    <string-array name="SyncData_Array">
+        <item>Diariament</item>
+        <item>Semanalment</item>
+        <item>Mensualment</item>
+    </string-array>
 </resources>
