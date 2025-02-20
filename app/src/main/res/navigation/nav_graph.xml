@@ -67,8 +67,11 @@
         android:name="com.novelight.application.fragments.config.ConfigUserFragment"
         android:label="ConfigUserFragment" >
         <action
-            android:id="@+id/action_configUserFragment2_to_configFragment3"
-            app:destination="@id/configFragment3" />
+            android:id="@+id/action_configUserFragment2_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_configUserFragment2_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -82,38 +85,22 @@
         android:id="@+id/configAboutFragment2"
         android:name="com.novelight.application.fragments.config.ConfigAboutFragment"
         android:label="fragment_config_about"
-        tools:layout="@layout/fragment_config_about" >
-        <action
-            android:id="@+id/action_configAboutFragment2_to_configFragment3"
-            app:destination="@id/configFragment3" />
-    </fragment>
+        tools:layout="@layout/fragment_config_about" />
     <fragment
         android:id="@+id/configAppearanceFragment2"
         android:name="com.novelight.application.fragments.config.ConfigAppearanceFragment"
         android:label="fragment_config_appearance"
-        tools:layout="@layout/fragment_config_appearance" >
-        <action
-            android:id="@+id/action_configAppearanceFragment2_to_configFragment3"
-            app:destination="@id/configFragment3" />
-    </fragment>
+        tools:layout="@layout/fragment_config_appearance" />
     <fragment
         android:id="@+id/configLibFragment2"
         android:name="com.novelight.application.fragments.config.ConfigLibFragment"
         android:label="fragment_config_lib"
-        tools:layout="@layout/fragment_config_lib" >
-        <action
-            android:id="@+id/action_configLibFragment2_to_configFragment3"
-            app:destination="@id/configFragment3" />
-    </fragment>
+        tools:layout="@layout/fragment_config_lib" />
     <fragment
         android:id="@+id/readFragment2"
         android:name="com.novelight.application.fragments.ReadFragment"
         android:label="fragment_read"
-        tools:layout="@layout/fragment_read" >
-        <action
-            android:id="@+id/action_readFragment2_to_seriesFragment2"
-            app:destination="@id/seriesFragment2" />
-    </fragment>
+        tools:layout="@layout/fragment_read" />
     <fragment
         android:id="@+id/seriesFragment2"
         android:name="com.novelight.application.fragments.SeriesFragment"
