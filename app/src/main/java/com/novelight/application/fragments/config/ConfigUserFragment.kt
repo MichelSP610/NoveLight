@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.navigation.fragment.findNavController
 import com.novelight.application.R
 import com.novelight.application.databinding.FragmentConfigBinding
 import com.novelight.application.databinding.FragmentConfigUserBinding
@@ -18,7 +19,7 @@ class ConfigUserFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val binding = FragmentConfigUserBinding.inflate(inflater, container, false)
 
@@ -33,7 +34,13 @@ class ConfigUserFragment : Fragment() {
             spinner.adapter = adapter
         }
 
+        binding.buttonUserLogIn.setOnClickListener {
+            findNavController().navigate(R.id.action_configUserFragment2_to_loginFragment)
+        }
 
+        binding.buttonUserSignUp.setOnClickListener {
+            findNavController().navigate(R.id.action_configUserFragment2_to_registerFragment)
+        }
 
 
         return binding.root
