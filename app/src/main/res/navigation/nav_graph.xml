@@ -71,6 +71,14 @@
             app:destination="@id/configFragment3" />
     </fragment>
     <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.novelight.application.fragments.config.sign.RegisterFragment"
+        android:label="RegisterFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.novelight.application.fragments.config.sign.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
         android:id="@+id/configAboutFragment2"
         android:name="com.novelight.application.fragments.config.ConfigAboutFragment"
         android:label="fragment_config_about"

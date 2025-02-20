@@ -3,9 +3,11 @@ package com.novelight.application.models
 import android.widget.ImageView
 import android.widget.SearchView
 import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.novelight.application.R
 import com.novelight.application.models.searchModels.MyOnActionExpandListener
 import com.novelight.application.models.searchModels.MyOnQueryTextListener
@@ -14,8 +16,16 @@ import com.novelight.application.viewModels.FilterViewModel
 class MaterialToolbarDestinationManager(
     private val materialToolbar: MaterialToolbar,
     private val navController: NavController,
-    private val filterViewModel: FilterViewModel
+    private val filterViewModel: FilterViewModel,
+    private val bottomNav: BottomNavigationView
 ) {
+
+    private val homeFragments: Set<Int> = setOf(
+        R.id.libraryFragment,
+        R.id.updatesFragment,
+        R.id.historyFragment,
+        R.id.exploreFragment
+    )
 
     init {
         setToolBarMenuOptions()
@@ -24,6 +34,7 @@ class MaterialToolbarDestinationManager(
     fun onFragmentChange(destination: NavDestination) {
         closeLibrarySearchViewIfExpanded()
         showToolBarGroup(destination.id)
+        showBottomNavIfHomeFragment(destination.id)
     }
 
     private fun goToSettingsFragment(actionId: Int) {
@@ -41,8 +52,13 @@ class MaterialToolbarDestinationManager(
             searchView.context.resources.getIdentifier("android:id/search_close_btn", null, null)
         val closeButton = searchView.findViewById<ImageView>(searchCloseButtonId)
         closeButton.setImageResource(R.drawable.blank)
+        closeButton.isEnabled = false
 
         searchMenuItem.setOnActionExpandListener(MyOnActionExpandListener(searchView))
+    }
+
+    private fun showBottomNavIfHomeFragment(fragmentId: Int) {
+        bottomNav.isVisible = homeFragments.contains(fragmentId)
     }
 
     private fun closeLibrarySearchViewIfExpanded() {

@@ -13,6 +13,9 @@ import com.novelight.application.databinding.FragmentConfigBinding
 class ConfigFragment : Fragment() {
 
 
+
+    private lateinit var binding: FragmentConfigBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +40,6 @@ class ConfigFragment : Fragment() {
         }
 
         return binding.root
-
     }
 
 
