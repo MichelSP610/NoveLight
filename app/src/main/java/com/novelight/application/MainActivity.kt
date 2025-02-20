@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavView.setupWithNavController(navController)
 
         materialToolbarDestinationManager =
-            MaterialToolbarDestinationManager(binding.mainToolbar, navController, filterViewModel)
+            MaterialToolbarDestinationManager(binding.mainToolbar, navController, filterViewModel, binding.bottomNav)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             materialToolbarDestinationManager.onFragmentChange(destination)

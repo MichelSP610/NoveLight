@@ -48,6 +48,10 @@ class ConfigFragment : Fragment() {
             findNavController().navigate(R.id.action_configFragment3_to_registerFragment)
         }
 
+        binding.loginTestButton.setOnClickListener {
+            findNavController().navigate(R.id.action_configFragment3_to_loginFragment)
+        }
+
         return binding.root
     }
 

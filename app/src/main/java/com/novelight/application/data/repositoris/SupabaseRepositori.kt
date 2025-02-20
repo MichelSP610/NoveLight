@@ -1,13 +1,12 @@
 package com.novelight.application.data.repositoris
 
+import co.touchlab.kermit.Logger
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.auth.status.SessionSource
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
-import kotlinx.serialization.json.internal.decodeToSequenceByReader
 
 class SupabaseRepositori {
     companion object {
@@ -19,6 +18,15 @@ class SupabaseRepositori {
             install(Postgrest)
         }
 
+        // If user has to be manually verified by making the user open it's verification link on their email
+        // it returns success even if the user already exists in the database
+        // and it returns an unusable token
+        // it also doesn't send a verification email
+
+        // either we leave it like this or we change it so accounts autoconfirm,
+        // if accounts autoconfirm the database returns the error saying the user already exists
+
+        // as of now we're gonna be leaving it like this, we will decide later if we leave it or we change it
         suspend fun createUser(mail: String, passwd: String) {
             supabase.auth.signUpWith(Email) {
                 email = mail
@@ -31,35 +39,6 @@ class SupabaseRepositori {
                 email = mail
                 password = passwd
             }
-        }
-
-        suspend fun checkEmailVerification(): Boolean {
-            var verified: Boolean = false
-
-            supabase.auth.sessionStatus.collect {
-                when(it) {
-                    is SessionStatus.Authenticated -> {
-                        println("Received new authenticated session.")
-                        verified = true
-                        /*
-                        when(it.source) { //Check the source of the session
-                            SessionSource.External -> TODO()
-                            is SessionSource.Refresh -> TODO()
-                            is SessionSource.SignIn -> TODO()
-                            is SessionSource.SignUp -> TODO()
-                            SessionSource.Storage -> TODO()
-                            SessionSource.Unknown -> TODO()
-                            is SessionSource.UserChanged -> TODO()
-                            is SessionSource.UserIdentitiesChanged -> TODO()
-                            else -> TODO()
-                        }
-                         */
-                    }
-                    else -> {verified = false}
-                }
-            }
-
-            return verified
         }
 
     }

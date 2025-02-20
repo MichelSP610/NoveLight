@@ -3,13 +3,7 @@ package com.novelight.application.viewModels.config.sign
 import androidx.lifecycle.ViewModel
 import co.touchlab.kermit.Logger
 import com.novelight.application.data.repositoris.SupabaseRepositori
-import io.github.jan.supabase.auth.Auth
-import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.exception.AuthRestException
-import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.postgrest.Postgrest
-import kotlinx.coroutines.runBlocking
 
 class SignViewModel : ViewModel() {
 
@@ -39,7 +33,25 @@ class SignViewModel : ViewModel() {
         }
     }
 
-    suspend fun checkEmailVerification(): Boolean {
-        return SupabaseRepositori.checkEmailVerification()
+    suspend fun logIn(mail: String, passwd: String): Boolean {
+        try {
+            SupabaseRepositori.logIn(mail, passwd)
+            return true
+        } catch (error: AuthRestException) {
+            when (error.error) {
+                "email_not_confirmed" -> {
+                    throw Exception("Email address not verified")
+                }
+
+                "invalid_credentials" -> {
+                    throw Exception("Wrong user or password")
+                }
+
+                else -> {
+                    Logger.e(tag = error.error, messageString = error.message.toString())
+                    throw Exception("Server Error")
+                }
+            }
+        }
     }
 }

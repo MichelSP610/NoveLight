@@ -10,42 +10,41 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.novelight.application.R
-import com.novelight.application.databinding.FragmentRegisterBinding
+import com.novelight.application.databinding.FragmentLoginBinding
 import com.novelight.application.utils.CustomUtils
 import com.novelight.application.viewModels.config.sign.SignViewModel
 import kotlinx.coroutines.runBlocking
 
-class RegisterFragment : Fragment() {
-
+class LoginFragment : Fragment() {
+    
+    private lateinit var binding: FragmentLoginBinding
     private val signViewModel: SignViewModel by activityViewModels<SignViewModel>()
-    private lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegisterBinding.inflate(inflater)
+        binding = FragmentLoginBinding.inflate(inflater)
 
-        binding.registerButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             runBlocking {
-                register()
+                login()
             }
         }
 
         return binding.root
     }
 
-    private suspend fun register() {
+    private suspend fun login() {
         val email = binding.inputUser.text.toString()
         val password = binding.inputPassword.text.toString()
 
         try {
             checkFieldsNotNull()
             CustomUtils.checkEmailFormat(email)
-            checkPasswordConfirmation()
 
-            if (signViewModel.registerUser(email, password)) {
-                Toast.makeText(context, "User registered successfuly\nPlease verify your email", Toast.LENGTH_SHORT).show()
+            if (signViewModel.logIn(email, password)) {
+                Toast.makeText(context, "User logged in successfullly", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             Logger.e(tag = "ERROR", messageString = e.message!!)
@@ -56,23 +55,11 @@ class RegisterFragment : Fragment() {
     private fun checkFieldsNotNull(): Boolean{
         val user = binding.inputUser.text.toString()
         val password = binding.inputPassword.text.toString()
-        val confirmPassword = binding.inputConfirmPassword.text.toString();
 
-        if (user != "" && password != "" && confirmPassword != "") {
+        if (user != "" && password != "") {
             return true;
         }
 
         throw Exception("Fields must not be blank")
-    }
-
-    private fun checkPasswordConfirmation(): Boolean {
-        val password = binding.inputPassword.text.toString()
-        val confirmPassword = binding.inputConfirmPassword.text.toString();
-
-        if (password == confirmPassword) {
-            return true
-        }
-
-        throw Exception("Passwords are not the same")
     }
 }
