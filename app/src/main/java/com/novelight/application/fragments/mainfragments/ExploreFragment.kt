@@ -30,7 +30,7 @@ class ExploreFragment : Fragment() {
     ): View {
         binding = FragmentExploreBinding.inflate(inflater)
 
-        binding.exploreRecycler.layoutManager = GridLayoutManager(context, 2)
+        binding.exploreRecycler.layoutManager = GridLayoutManager(context, 3)
 
         serieViewModel.series.observe(viewLifecycleOwner, Observer { series ->
             updateRecycler(series)
