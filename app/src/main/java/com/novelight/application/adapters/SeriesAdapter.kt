@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +22,7 @@ class SeriesAdapter(private val mList: List<RanobeSerieModel>, private val conte
         // inflates the card_view_design view
         // that is used to hold list item
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.serie_item, parent, false)
+            .inflate(R.layout.noveles_cardview, parent, false)
 
         return ViewHolder(view)
     }
@@ -38,15 +40,15 @@ class SeriesAdapter(private val mList: List<RanobeSerieModel>, private val conte
             if (imageFilename != "") {
                 Picasso.with(context)
                     .load("https://images.ranobedb.org/" + imageFilename)
-                    .into(holder.serieImage)
+                    .into(holder.novelImage)
             }
 
-            holder.textViewNom.text = serie.title
+            holder.novelName.text = serie.title
         }
 
-//        holder.serieLayout.setOnClickListener{
-//
-//        }
+        holder.novelLayout.setOnClickListener{
+            Toast.makeText(context, serie.title, Toast.LENGTH_SHORT).show()
+        }
     }
 
     // return the number of the items in the list
@@ -56,8 +58,8 @@ class SeriesAdapter(private val mList: List<RanobeSerieModel>, private val conte
 
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val textViewNom: TextView = itemView.findViewById(R.id.textViewNom)
-        val serieLayout: ConstraintLayout = itemView.findViewById(R.id.serieLayout)
-        val serieImage: ImageView = itemView.findViewById(R.id.serieImage)
+        val novelName: TextView = itemView.findViewById(R.id.novelName)
+        val novelLayout: RelativeLayout = itemView.findViewById(R.id.novelLayout)
+        val novelImage: ImageView = itemView.findViewById(R.id.novelImage)
     }
 }

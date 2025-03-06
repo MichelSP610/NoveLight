@@ -15,9 +15,9 @@ class SerieViewModel: ViewModel() {
 
     suspend fun loadSeries() {
         val dbSerie: List<SupabaseSerie> = SupabaseRepositori.getSeries()
-        Thread({
+//        Thread({
             _series.postValue(RanobeRepositori.getSeries(dbSerie.map { it.id }));
-        }).start()
+//        }).start()
     }
 
 }

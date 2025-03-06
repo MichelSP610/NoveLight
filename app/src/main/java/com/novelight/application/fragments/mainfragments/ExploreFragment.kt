@@ -35,10 +35,12 @@ class ExploreFragment : Fragment() {
         serieViewModel.series.observe(viewLifecycleOwner, Observer { series ->
             updateRecycler(series)
         })
+        Thread({
+            runBlocking {
+                serieViewModel.loadSeries()
+            }
+        }).start()
 
-        runBlocking {
-            serieViewModel.loadSeries()
-        }
 
         return binding.root
     }
