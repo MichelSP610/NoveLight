@@ -1,12 +1,14 @@
 package com.novelight.application.data.repositoris
 
-import co.touchlab.kermit.Logger
+import android.util.Log
+import com.novelight.application.models.apiModels.supabaseModels.SupabaseSerie
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.auth.status.SessionStatus
+import io.github.jan.supabase.auth.signInAnonymously
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
 
 class SupabaseRepositori {
     companion object {
@@ -40,6 +42,19 @@ class SupabaseRepositori {
                 password = passwd
             }
         }
+
+        suspend fun getSeries(): List<SupabaseSerie> {
+            return supabase.from("Serie").select().decodeList<SupabaseSerie>()
+        }
+
+//        private suspend fun anonymousUserIfNotLoggedIn() {
+//            Log.d("USER", supabase.auth.currentUserOrNull().toString())
+//            if (supabase.auth.currentUserOrNull() == null) {
+//                Log.d("USER2", supabase.auth.currentUserOrNull().toString())
+//                supabase.auth.signInAnonymously()
+//                Log.d("USER3", supabase.auth.currentUserOrNull().toString())
+//            }
+//        }
 
     }
 }
