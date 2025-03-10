@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ import com.novelight.application.databinding.FragmentExploreBinding
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.viewModels.SerieViewModel
 import kotlinx.coroutines.runBlocking
+import okio.Timeout
 
 class ExploreFragment : Fragment() {
 
@@ -41,12 +43,14 @@ class ExploreFragment : Fragment() {
             }
         }).start()
 
-
         return binding.root
     }
 
     private fun updateRecycler(list: List<RanobeSerieModel>?) {
         if (list != null) binding.exploreRecycler.adapter = SeriesAdapter(list, requireContext())
         else binding.exploreRecycler.adapter = SeriesAdapter(listOf(), requireContext())
+
+        binding.progressBar.setVisibility(View.GONE)
     }
+
 }
