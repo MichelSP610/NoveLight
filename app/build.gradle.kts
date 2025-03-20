@@ -62,4 +62,6 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("com.squareup.picasso:picasso:2.5.2")
+
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
 }

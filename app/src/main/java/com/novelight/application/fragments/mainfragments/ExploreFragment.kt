@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import android.widget.GridLayout
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +18,7 @@ import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieMode
 import com.novelight.application.viewModels.SelectedSerieViewModel
 import com.novelight.application.viewModels.SerieViewModel
 import kotlinx.coroutines.runBlocking
+import okio.Timeout
 
 class ExploreFragment : Fragment() {
 
@@ -47,5 +51,9 @@ class ExploreFragment : Fragment() {
     private fun updateRecycler(list: List<RanobeSerieModel>?) {
         if (list != null) binding.exploreRecycler.adapter = SeriesAdapter(list, this, selectedSerieViewModel)
         else binding.exploreRecycler.adapter = SeriesAdapter(listOf(), this, selectedSerieViewModel)
+
+        binding.progressBar.setVisibility(View.GONE)
+
     }
+
 }
