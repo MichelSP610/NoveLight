@@ -1,19 +1,23 @@
 package com.novelight.application.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.novelight.application.R
+import com.novelight.application.fragments.mainfragments.ExploreFragment
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
+import com.novelight.application.utils.CustomUtils
+import com.novelight.application.viewModels.SelectedSerieViewModel
 import com.squareup.picasso.Picasso
+import io.ktor.util.reflect.instanceOf
 
-class SeriesAdapter(private val mList: List<RanobeSerieModel>, private val context: Context): RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
+class SeriesAdapter(private val mList: List<RanobeSerieModel>, private val fragment: Fragment, private val viewModel: SelectedSerieViewModel): RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
@@ -34,16 +38,19 @@ class SeriesAdapter(private val mList: List<RanobeSerieModel>, private val conte
             val imageFilename = serie.books.get(serie.books.lastIndex).image.filename
 
             if (imageFilename != "") {
-                Picasso.with(context)
-                    .load("https://images.ranobedb.org/" + imageFilename)
-                    .into(holder.novelImage)
+                CustomUtils.loadRanobeImageOnImageView(holder.novelImage, imageFilename, fragment.requireContext())
             }
 
             holder.novelName.text = serie.title
         }
 
         holder.novelLayout.setOnClickListener{
-            Toast.makeText(context, serie.title, Toast.LENGTH_SHORT).show()
+            viewModel.setSelectedSerie(serie)
+            if (fragment.instanceOf(ExploreFragment::class)) {
+                fragment.findNavController().navigate(R.id.action_exploreFragment_to_seriesFragment2)
+            } else {
+                fragment.findNavController().navigate(R.id.action_libraryFragment_to_seriesFragment2)
+            }
         }
     }
 

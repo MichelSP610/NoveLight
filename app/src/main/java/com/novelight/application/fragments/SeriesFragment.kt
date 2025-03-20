@@ -1,60 +1,70 @@
 package com.novelight.application.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import co.touchlab.kermit.Logger
 import com.novelight.application.R
+import com.novelight.application.adapters.BooksAdapter
+import com.novelight.application.databinding.FragmentSeriesBinding
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeStaff
+import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobeStaffRoleType
+import com.novelight.application.utils.CustomUtils
+import com.novelight.application.viewModels.SelectedSerieViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SeriesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SeriesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentSeriesBinding
+    private val selectedSerieViewModel: SelectedSerieViewModel by activityViewModels<SelectedSerieViewModel>()
 
+    //TODO images for author, artist and status need to be added
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_series, container, false)
-    }
+        binding = FragmentSeriesBinding.inflate(inflater)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SeriesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SeriesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        binding.serieBooksRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.serieBooksRecycler.adapter =
+            BooksAdapter(selectedSerieViewModel.selectedSerie.books)
+
+        binding.serieBooksRecycler.setHasFixedSize(false)
+
+        binding.serieTitle.text = selectedSerieViewModel.selectedSerie.title
+
+        val author: RanobeStaff = selectedSerieViewModel.selectedSerie.staff.find {
+            it.role_type == RanobeStaffRoleType.AUTHOR
+        }!!
+
+        if (author.romaji != null) {binding.serieAuthorName.text = author.romaji}
+        else {binding.serieAuthorName.text = author.name}
+
+        val artist: RanobeStaff = selectedSerieViewModel.selectedSerie.staff.find {
+            it.role_type == RanobeStaffRoleType.ARTIST
+        }!!
+
+        if (artist.romaji != null) {binding.serieArtistName.text = artist.romaji}
+        else {binding.serieArtistName.text = artist.name}
+
+        binding.serieStatusName.text = selectedSerieViewModel.selectedSerie.publication_status.value
+
+        binding.serieDescription.text = selectedSerieViewModel.selectedSerie.book_description.description
+
+        binding.serieVolumeCount.text = selectedSerieViewModel.selectedSerie.books.size.toString() + " Books"
+
+        CustomUtils.loadRanobeImageOnImageView(
+            binding.serieImage,
+            CustomUtils.getRanobeSerieImageFilename(selectedSerieViewModel.selectedSerie),
+            requireContext()
+        )
+
+        return binding.root
     }
 }
