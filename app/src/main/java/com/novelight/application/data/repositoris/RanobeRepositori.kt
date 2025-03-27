@@ -22,7 +22,6 @@ class RanobeRepositori {
             for (id in ids) {
                 val serieCall: Call<RanobeSeriesModel> = service.getSerie(id)
                 val response = serieCall.execute()
-                Log.i("SERIE", response.body().toString())
                 response.body()?.let { series.add(it.series) }
             }
 

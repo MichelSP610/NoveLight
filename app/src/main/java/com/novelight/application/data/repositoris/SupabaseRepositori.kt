@@ -1,12 +1,16 @@
 package com.novelight.application.data.repositoris
 
+import android.media.audiofx.DynamicsProcessing.Eq
+import android.util.Log
 import com.novelight.application.models.apiModels.supabaseModels.SupabaseSerie
+import com.novelight.application.utils.CustomUtils
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.filter.TextSearchType
 
 class SupabaseRepositori {
     companion object {
@@ -43,6 +47,17 @@ class SupabaseRepositori {
 
         suspend fun getSeries(): List<SupabaseSerie> {
             return supabase.from("Serie").select().decodeList<SupabaseSerie>()
+        }
+
+        //TODO fix parse errors and make search use half words to work
+        suspend fun getSeriesByTitle(title: String): List<SupabaseSerie> {
+            val query = CustomUtils.getRanobeTitleQuery(title)
+            Log.i("QUERY", query)
+            return supabase.from("Serie").select {
+                filter {
+                    textSearch("title", query, TextSearchType.NONE)
+                }
+            }.decodeList<SupabaseSerie>()
         }
 
 //        private suspend fun anonymousUserIfNotLoggedIn() {

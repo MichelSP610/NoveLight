@@ -49,10 +49,11 @@
 
     <group android:id="@id/exploreFragment">
         <item
-            android:id="@+id/exploreTest"
-            android:icon="@drawable/explore_24dp_e8eaed_fill0_wght400_grad0_opsz24"
-            android:title="@string/settings"
-            app:showAsAction="ifRoom" />
+            android:id="@+id/exploreSearch"
+            android:icon="@drawable/search_24dp_e8eaed_fill0_wght400_grad0_opsz24"
+            android:title="@string/search"
+            app:actionViewClass="android.widget.SearchView"
+            app:showAsAction="ifRoom|collapseActionView" />
         <item
             android:id="@+id/exploreSettings"
             android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"

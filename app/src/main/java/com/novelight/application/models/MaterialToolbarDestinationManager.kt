@@ -32,7 +32,8 @@ class MaterialToolbarDestinationManager(
     }
 
     fun onFragmentChange(destination: NavDestination) {
-        closeLibrarySearchViewIfExpanded()
+        closeSearchViewIfExpanded(R.id.librarySearch)
+        closeSearchViewIfExpanded(R.id.exploreSearch)
         showToolBarGroup(destination.id)
         showBottomNavIfHomeFragment(destination.id)
     }
@@ -42,8 +43,8 @@ class MaterialToolbarDestinationManager(
         navController.navigate(actionId)
     }
 
-    private fun setupLibraryToolBarSearchView() {
-        val searchMenuItem = materialToolbar.menu.findItem(R.id.librarySearch)
+    private fun setupToolBarSearchView(searchViewId: Int) {
+        val searchMenuItem = materialToolbar.menu.findItem(searchViewId)
         val searchView = searchMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(MyOnQueryTextListener(filterViewModel))
         searchView.isIconifiedByDefault = false
@@ -61,15 +62,16 @@ class MaterialToolbarDestinationManager(
         bottomNav.isVisible = homeFragments.contains(fragmentId)
     }
 
-    private fun closeLibrarySearchViewIfExpanded() {
-        val searchMenuItem = materialToolbar.menu.findItem(R.id.librarySearch)
+    private fun closeSearchViewIfExpanded(searchViewId: Int) {
+        val searchMenuItem = materialToolbar.menu.findItem(searchViewId)
         if (searchMenuItem.isActionViewExpanded) {
             searchMenuItem.collapseActionView()
         }
     }
 
     private fun setToolBarMenuOptions() {
-        setupLibraryToolBarSearchView()
+        setupToolBarSearchView(R.id.librarySearch)
+        setupToolBarSearchView(R.id.exploreSearch)
 
         materialToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -101,10 +103,6 @@ class MaterialToolbarDestinationManager(
                 }
 
                 // exploreMenu
-                R.id.exploreTest -> {
-                    true
-                }
-
                 R.id.exploreSettings -> {
                     goToSettingsFragment(R.id.action_exploreFragment_to_configFragment3)
                     true

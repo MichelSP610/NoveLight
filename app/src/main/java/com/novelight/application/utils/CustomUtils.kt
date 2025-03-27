@@ -36,5 +36,13 @@ class CustomUtils {
         fun getRanobeSerieImageFilename(serie: RanobeSerieModel): String {
             return serie.books.get(serie.books.lastIndex).image.filename
         }
+
+        fun getRanobeTitleQuery(query: String): String {
+            val tempQuery: String = "*" + query + "*"
+            return tempQuery.replace("\t", "+")
+                .replace("\n", "+")
+                .replace(" ", "+")
+                .replace("'", "?")
+        }
     }
 }

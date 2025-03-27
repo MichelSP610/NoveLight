@@ -11,7 +11,9 @@ class MyOnQueryTextListener(private val viewModel: FilterViewModel): SearchView.
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        viewModel.setQuery(query.toString())
+        if (query == null || query == "") {
+            viewModel.setQuery(query.toString())
+        }
         return false
     }
 }
