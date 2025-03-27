@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    kotlin("plugin.serialization") version "2.1.10"
+    kotlin("plugin.serialization") version "2.1.20"
+    //PLUGIN PER AL KSP
+    id("com.google.devtools.ksp") version "2.1.20-1.0.32"
 }
 
 android {
@@ -64,4 +66,9 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.5.2")
 
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
+    //DEPENDENCIES A MÀ PER A ROOM
+    implementation("androidx.room:room-runtime:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 }

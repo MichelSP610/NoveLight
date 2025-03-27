@@ -1,4 +1,4 @@
-package com.novelight.application.data.repositoris.service
+package com.novelight.application.data.service
 
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSeriesModel
 import retrofit2.Call

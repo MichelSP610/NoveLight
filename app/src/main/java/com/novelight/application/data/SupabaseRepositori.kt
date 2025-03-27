@@ -1,6 +1,5 @@
-package com.novelight.application.data.repositoris
+package com.novelight.application.data
 
-import android.media.audiofx.DynamicsProcessing.Eq
 import android.util.Log
 import com.novelight.application.models.apiModels.supabaseModels.SupabaseSerie
 import com.novelight.application.utils.CustomUtils

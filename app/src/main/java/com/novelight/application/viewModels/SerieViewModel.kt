@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.novelight.application.data.repositoris.RanobeRepositori
-import com.novelight.application.data.repositoris.SupabaseRepositori
+import com.novelight.application.data.RanobeRepositori
+import com.novelight.application.data.SupabaseRepositori
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.models.apiModels.supabaseModels.SupabaseSerie
 

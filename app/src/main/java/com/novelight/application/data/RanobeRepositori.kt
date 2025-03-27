@@ -1,8 +1,7 @@
-package com.novelight.application.data.repositoris
+package com.novelight.application.data
 
-import android.util.Log
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
-import com.novelight.application.data.repositoris.service.RanobeService
+import com.novelight.application.data.service.RanobeService
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSeriesModel
 import retrofit2.Call
 import retrofit2.Retrofit
