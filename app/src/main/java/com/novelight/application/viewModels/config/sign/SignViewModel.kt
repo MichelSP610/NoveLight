@@ -2,7 +2,7 @@ package com.novelight.application.viewModels.config.sign
 
 import androidx.lifecycle.ViewModel
 import co.touchlab.kermit.Logger
-import com.novelight.application.data.repositoris.SupabaseRepositori
+import com.novelight.application.data.SupabaseRepositori
 import io.github.jan.supabase.auth.exception.AuthRestException
 
 class SignViewModel : ViewModel() {
