@@ -13,6 +13,8 @@ class RoomRepositori {
         private var repo_database: RoomDataBase? = null
 
         private var series: LiveData<List<RoomSerie>>? = null
+
+        private var serie: LiveData<RoomSerie>? = null
         private var serieWithBooks: LiveData<RoomSerieWithBooks>? = null
 
         private fun initializeDB(context: Context): RoomDataBase {
@@ -29,6 +31,16 @@ class RoomRepositori {
             return series
         }
 
+        fun getSerie(context: Context, serieId: Int): LiveData<RoomSerie>? {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                serie = repo_database!!.roomSerieDAO().getSerie(serieId)
+            }
+
+            return serie
+        }
+
         fun getSerieWithBooks(context: Context, serieId: Int): LiveData<RoomSerieWithBooks>? {
             repo_database = initializeDB(context)
 
@@ -37,6 +49,22 @@ class RoomRepositori {
             }
 
             return serieWithBooks
+        }
+
+        fun addSerie(context: Context, serie: RoomSerie) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomSerieDAO().insertSerie(serie)
+            }
+        }
+
+        fun deleteSerie(context: Context, serieId: Int) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomSerieDAO().deleteSerie(serieId)
+            }
         }
 
 //        fun addAlumne(alumne: Alumne, context: Context) {

@@ -2,11 +2,12 @@ package com.novelight.application.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(tableName = "Book", primaryKeys = ["id", "serie_id"])
+@Entity(tableName = "Book")
 data class RoomBook(
-    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false)
     var id: Int,
     @ColumnInfo(name = "serie_id")
     var serieId: Int,

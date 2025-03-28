@@ -28,11 +28,11 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/serieImage"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginLeft="10dp">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/serieTitle"
@@ -104,28 +104,55 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/serieIconsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/serieDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/serieImage">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ToggleButton
+                            android:id="@+id/serieLibraryToggleButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textOff="Add to Library"
+                            android:textOn="In Library" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/serieDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="@string/serie_description"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/serieImage" />
+                    app:layout_constraintTop_toBottomOf="@id/serieIconsLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/serieVolumeCount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/volume_count"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/serieBooksRecycler"

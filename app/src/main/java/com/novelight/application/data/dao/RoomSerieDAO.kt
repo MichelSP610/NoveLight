@@ -14,6 +14,9 @@ interface RoomSerieDAO {
     @Query("select * from serie")
     fun getSeries(): LiveData<List<RoomSerie>>
 
+    @Query("select * from serie where id = :serieId")
+    fun getSerie(serieId: Int): LiveData<RoomSerie>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertSerie(serie: RoomSerie)
 

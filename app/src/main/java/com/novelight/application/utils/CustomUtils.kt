@@ -2,6 +2,7 @@ package com.novelight.application.utils
 
 import android.content.Context
 import android.widget.ImageView
+import com.novelight.application.data.entities.RoomSerie
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
@@ -43,6 +44,13 @@ class CustomUtils {
                 .replace("\n", "+")
                 .replace(" ", "+")
                 .replace("'", "?")
+        }
+
+        fun getRoomSerieFromRanobeSerie(ranobeSerie: RanobeSerieModel): RoomSerie {
+            return RoomSerie(
+                id = ranobeSerie.id,
+                title = ranobeSerie.title
+            )
         }
     }
 }
