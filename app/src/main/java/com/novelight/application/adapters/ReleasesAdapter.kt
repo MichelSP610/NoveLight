@@ -42,8 +42,26 @@ class ReleasesAdapter(private val mList: List<RanobeReleaseModel>, private val c
                     .into(holder.releaseImage)
             }
 
-            holder.releaseName.text = release.title
+
+
+            val volumeRegex = Regex("(?i)(Vol\\.?|vol\\.?|Volume) \\d+(-\\d+)?|\\d+$") // Covers "Vol.", "Vol", "vol.", "vol", "Volume", and standalone numbers
+            val volumeMatch = volumeRegex.find(release.title)
+
+            val cleanTitle = volumeMatch?.let {
+                release.title.removeSuffix(", " + it.value).trim().removeSuffix(it.value).trim()
+            } ?: release.title
+
+            val cleanVolume = "Vol. " + (volumeMatch?.value?.replace(Regex("(?i)(Vol\\.?|vol\\.?|Volume) "), "") ?: "1")
+
+            holder.releaseName.text = cleanTitle
+            holder.releaseVolume.text = cleanVolume
             holder.releaseDate.text = formatDate(release.release_date)
+
+
+
+
+
+
 
         }
 
@@ -58,6 +76,7 @@ class ReleasesAdapter(private val mList: List<RanobeReleaseModel>, private val c
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val releaseName: TextView = itemView.findViewById(R.id.releaseTitle)
         val releaseImage: ImageView = itemView.findViewById(R.id.releaseImage)
+        val releaseVolume: TextView = itemView.findViewById(R.id.releaseVolume)
         val releaseDate: TextView = itemView.findViewById(R.id.releaseDate)
     }
 
