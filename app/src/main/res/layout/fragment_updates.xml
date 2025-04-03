@@ -12,8 +12,8 @@
             android:id="@+id/updateRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_Color"
             android:layout_margin="10dp"
+            android:background="@color/background_Color"
             tools:listitem="@layout/releases_cardview" />
 
     </LinearLayout>
