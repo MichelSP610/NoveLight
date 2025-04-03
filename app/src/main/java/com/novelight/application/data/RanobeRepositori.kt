@@ -1,7 +1,10 @@
 package com.novelight.application.data
 
+import android.util.Log
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.data.service.RanobeService
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleaseModel
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleasesModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSeriesModel
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -25,6 +28,16 @@ class RanobeRepositori {
             }
 
             return series
+        }
+
+        fun getReleases(): List<RanobeReleaseModel> {
+            val releases: MutableList<RanobeReleaseModel> = mutableListOf()
+            val releaseCall: Call<RanobeReleasesModel> = service.getReleases()
+            val response = releaseCall.execute()
+
+            Log.i("RELEASES", response.body().toString())
+            response.body()?.let { releases.addAll(it.releases) }
+            return releases
         }
 
     }
