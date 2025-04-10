@@ -1,16 +1,16 @@
 package com.novelight.application.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import co.touchlab.kermit.Logger
-import com.novelight.application.R
 import com.novelight.application.adapters.BooksAdapter
+import com.novelight.application.data.entities.RoomSerieWithBooks
+import com.novelight.application.data.entities.RoomStaff
 import com.novelight.application.databinding.FragmentSeriesBinding
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeStaff
 import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobeStaffRoleType
@@ -32,39 +32,49 @@ class SeriesFragment : Fragment() {
 
         binding.serieBooksRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.serieBooksRecycler.adapter =
-            BooksAdapter(selectedSerieViewModel.selectedSerie.books)
+        Thread({
+            selectedSerieViewModel.loadSelectedSerie(requireContext())
+        }).start()
+
+        selectedSerieViewModel.selectedSerie.observe(viewLifecycleOwner, Observer {selectedSerie ->
+            updateView(selectedSerie)
+        })
 
         binding.serieBooksRecycler.setHasFixedSize(false)
 
-        binding.serieTitle.text = selectedSerieViewModel.selectedSerie.title
-
-        val author: RanobeStaff = selectedSerieViewModel.selectedSerie.staff.find {
-            it.role_type == RanobeStaffRoleType.AUTHOR
-        }!!
-
-        if (author.romaji != null) {binding.serieAuthorName.text = author.romaji}
-        else {binding.serieAuthorName.text = author.name}
-
-        val artist: RanobeStaff = selectedSerieViewModel.selectedSerie.staff.find {
-            it.role_type == RanobeStaffRoleType.ARTIST
-        }!!
-
-        if (artist.romaji != null) {binding.serieArtistName.text = artist.romaji}
-        else {binding.serieArtistName.text = artist.name}
-
-        binding.serieStatusName.text = selectedSerieViewModel.selectedSerie.publication_status.value
-
-        binding.serieDescription.text = selectedSerieViewModel.selectedSerie.book_description.description
-
-        binding.serieVolumeCount.text = selectedSerieViewModel.selectedSerie.books.size.toString() + " Books"
-
-        CustomUtils.loadRanobeImageOnImageView(
-            binding.serieImage,
-            CustomUtils.getRanobeSerieImageFilename(selectedSerieViewModel.selectedSerie),
-            requireContext()
-        )
-
         return binding.root
+    }
+
+    private fun updateView(selectedSerie: RoomSerieWithBooks?) {
+        if (selectedSerie != null) {
+            binding.serieBooksRecycler.adapter = BooksAdapter(selectedSerie.books)
+            binding.serieTitle.text = selectedSerie.serie.title
+
+            val author: RoomStaff = selectedSerie.staff.find {
+                it.roleType == RanobeStaffRoleType.AUTHOR
+            }!!
+
+            if (author.romaji != null) {binding.serieAuthorName.text = author.romaji}
+            else {binding.serieAuthorName.text = author.name}
+
+            val artist: RoomStaff = selectedSerie.staff.find {
+                it.roleType == RanobeStaffRoleType.ARTIST
+            }!!
+
+            if (artist.romaji != null) {binding.serieArtistName.text = artist.romaji}
+            else {binding.serieArtistName.text = artist.name}
+
+            binding.serieStatusName.text = selectedSerie.serie.publication_status.value
+
+            binding.serieDescription.text = selectedSerie.serie.book_description
+
+            binding.serieVolumeCount.text = selectedSerie.books.size.toString() + " Books"
+
+            CustomUtils.loadRanobeImageOnImageView(
+                binding.serieImage,
+                selectedSerie.serie.imageFileName,
+                requireContext()
+            )
+        }
     }
 }

@@ -7,12 +7,18 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.novelight.application.data.converters.DateConverter
 import com.novelight.application.data.dao.RoomBookDAO
+import com.novelight.application.data.dao.RoomReleaseDAO
 import com.novelight.application.data.dao.RoomSerieDAO
+import com.novelight.application.data.dao.RoomSerieStaffCrossRefDAO
+import com.novelight.application.data.dao.RoomStaffDAO
 import com.novelight.application.data.entities.RoomBook
+import com.novelight.application.data.entities.RoomRelease
 import com.novelight.application.data.entities.RoomSerie
+import com.novelight.application.data.entities.RoomSerieStaffCrossRef
+import com.novelight.application.data.entities.RoomStaff
 
 @Database(
-    entities = [RoomSerie::class, RoomBook::class],
+    entities = [RoomSerie::class, RoomBook::class, RoomStaff::class, RoomSerieStaffCrossRef::class, RoomRelease::class],
     version = 1,
     exportSchema = false
 )
@@ -21,6 +27,9 @@ abstract class RoomDataBase: RoomDatabase() {
 
     abstract fun roomSerieDAO() : RoomSerieDAO
     abstract fun roomBookDAO(): RoomBookDAO
+    abstract fun roomStaffDAO(): RoomStaffDAO
+    abstract fun roomReleaseDAO(): RoomReleaseDAO
+    abstract fun roomSerieStaffCrossRefDAO(): RoomSerieStaffCrossRefDAO
 
     companion object {
 

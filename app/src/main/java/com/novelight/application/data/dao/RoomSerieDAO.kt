@@ -12,15 +12,15 @@ import com.novelight.application.data.entities.RoomSerieWithBooks
 @Dao
 interface RoomSerieDAO {
     @Query("select * from serie")
-    fun getSeries(): LiveData<List<RoomSerie>>
+    fun getSeries(): List<RoomSerie>
 
-    @Query("select * from serie where id = :serieId")
-    fun getSerie(serieId: Int): LiveData<RoomSerie>
+    @Query("select * from serie where serie_id = :serieId limit 1")
+    fun getSerie(serieId: Int): RoomSerie
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertSerie(serie: RoomSerie)
 
-    @Query("delete from Serie where id = :serieId")
+    @Query("delete from Serie where serie_id = :serieId")
     fun deleteSerie(serieId: Int)
 
     @Transaction
@@ -28,6 +28,6 @@ interface RoomSerieDAO {
     fun getAllSeriesWithBooks(): LiveData<List<RoomSerieWithBooks>>
 
     @Transaction
-    @Query("select * from Serie where id = :serieId")
-    fun getSerieWithBooks(serieId: Int) : LiveData<RoomSerieWithBooks>
+    @Query("select * from Serie where serie_id = :serieId")
+    fun getSerieWithBooks(serieId: Int) : RoomSerieWithBooks
 }
