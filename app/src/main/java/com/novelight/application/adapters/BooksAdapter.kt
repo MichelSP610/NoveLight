@@ -7,10 +7,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.novelight.application.R
-import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
+import com.novelight.application.data.entities.RoomBook
 import com.novelight.application.utils.CustomUtils
 
-class BooksAdapter(private val mList: List<RanobeBook>): RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
+class BooksAdapter(private val mList: List<RoomBook>): RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
@@ -26,7 +26,7 @@ class BooksAdapter(private val mList: List<RanobeBook>): RecyclerView.Adapter<Bo
         val book = mList[position]
 
         holder.bookTitle.text = book.title
-        holder.bookReleaseDate.text = CustomUtils.getFormattedDateString(book.c_release_date)
+        holder.bookReleaseDate.text = CustomUtils.getFormattedDateString(book.releaseDate)
 
     }
 

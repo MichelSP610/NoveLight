@@ -14,6 +14,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.novelight.application.databinding.ActivityMainBinding
 import com.novelight.application.models.MaterialToolbarDestinationManager
 import com.novelight.application.viewModels.FilterViewModel
+import com.novelight.application.viewModels.SerieViewModel
+import kotlinx.coroutines.runBlocking
 
 
 class MainActivity : AppCompatActivity() {

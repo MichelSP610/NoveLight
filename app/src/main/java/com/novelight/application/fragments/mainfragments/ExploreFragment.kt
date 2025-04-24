@@ -1,26 +1,21 @@
 package com.novelight.application.fragments.mainfragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import android.widget.GridLayout
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.novelight.application.adapters.SeriesAdapter
+import com.novelight.application.data.entities.RoomSerie
 import com.novelight.application.databinding.FragmentExploreBinding
-import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.viewModels.FilterViewModel
 import com.novelight.application.viewModels.SelectedSerieViewModel
 import com.novelight.application.viewModels.SerieViewModel
 import kotlinx.coroutines.runBlocking
-import okio.Timeout
 
 class ExploreFragment : Fragment() {
 
@@ -40,7 +35,7 @@ class ExploreFragment : Fragment() {
         filterViewModel.query.observe(viewLifecycleOwner, Observer { query ->
             Thread({
                 runBlocking {
-                    serieViewModel.loadSeriesByTitleQuery(query)
+                    serieViewModel.loadSeriesByTitleQuery(requireContext(), query)
                 }
             }).start()
         })
@@ -51,14 +46,14 @@ class ExploreFragment : Fragment() {
 
         Thread({
             runBlocking {
-                serieViewModel.loadSeries()
+                serieViewModel.loadSeries(requireContext())
             }
         }).start()
 
         return binding.root
     }
 
-    private fun updateRecycler(list: List<RanobeSerieModel>?) {
+    private fun updateRecycler(list: List<RoomSerie>?) {
         if (list != null) {
             binding.exploreRecycler.adapter = SeriesAdapter(list, this, selectedSerieViewModel)
             binding.progressBar.setVisibility(View.GONE)

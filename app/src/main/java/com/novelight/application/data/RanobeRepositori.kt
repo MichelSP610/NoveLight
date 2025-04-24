@@ -1,8 +1,10 @@
 package com.novelight.application.data
 
+import com.novelight.application.data.entities.RoomBook
 import android.util.Log
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.data.service.RanobeService
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleaseModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleasesModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSeriesModel
@@ -30,6 +32,25 @@ class RanobeRepositori {
             return series
         }
 
+        fun getSerie(id: Int) :RanobeSerieModel? {
+            var serie: RanobeSerieModel? = null
+
+            val serieCall: Call<RanobeSeriesModel> = service.getSerie(id)
+            val response = serieCall.execute()
+            response.body()?.let { serie = it.series }
+
+            return serie;
+        }
+
+        fun getBook(id: Int) :RanobeBook? {
+            var book: RanobeBook? = null
+
+            val bookCall: Call<RanobeBook> = service.getBook(id)
+            val response = bookCall.execute()
+            response.body()?.let { book = it }
+
+            return book
+        }
         fun getReleases(): List<RanobeReleaseModel> {
             val releases: MutableList<RanobeReleaseModel> = mutableListOf()
             val releaseCall: Call<RanobeReleasesModel> = service.getReleases()
