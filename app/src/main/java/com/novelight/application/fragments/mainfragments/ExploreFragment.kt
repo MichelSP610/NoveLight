@@ -64,6 +64,7 @@ class ExploreFragment : Fragment() {
             binding.progressBar.setVisibility(View.VISIBLE)
             binding.exploreRecycler.visibility = View.GONE
         }
+        binding.progressBar.setVisibility(View.GONE)
     }
 
 }
