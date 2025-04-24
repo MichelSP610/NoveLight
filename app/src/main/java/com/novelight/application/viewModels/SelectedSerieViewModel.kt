@@ -28,6 +28,7 @@ class SelectedSerieViewModel: ViewModel() {
         _selectedSerieId = serieId
     }
 
+    //TODO: this function has to be changed so the update is done in another thread and the serie loads faster
     fun loadSelectedSerie(context: Context) {
         _selectedSerie.postValue(null)
         val ranobeSerie: RanobeSerieModel? = RanobeRepositori.getSerie(id = selectedSerieId)
@@ -50,12 +51,11 @@ class SelectedSerieViewModel: ViewModel() {
         }
     }
 
-//    fun addSelectedSerieToLibrary(context: Context) {
-//        val roomSerie: RoomSerie = CustomUtils.getRoomSerieFromRanobeSerie(selectedSerie)
-//        RoomRepositori.addSerie(context, roomSerie)
-//    }
-//
-//    fun deleteSelectedSerieFromLibrary(context: Context) {
-//        RoomRepositori.deleteSerie(context, selectedSerie.id)
-//    }
+    fun updateSelectedSerieInLibrary(context: Context, toggle: Boolean) {
+        RoomRepositori.updateSerieInLibrary(context, selectedSerieId, toggle)
+    }
+
+    fun deleteSelectedSerieFromLibrary(context: Context) {
+        RoomRepositori.deleteSerie(context, selectedSerieId)
+    }
 }

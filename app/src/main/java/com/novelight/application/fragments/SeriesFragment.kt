@@ -22,7 +22,8 @@ class SeriesFragment : Fragment() {
     private lateinit var binding: FragmentSeriesBinding
     private val selectedSerieViewModel: SelectedSerieViewModel by activityViewModels<SelectedSerieViewModel>()
 
-    //TODO images for author, artist and status need to be added
+    //TODO: images for author, artist and status need to be added
+    //TODO: make the fragment not interactable while loading
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +40,13 @@ class SeriesFragment : Fragment() {
         selectedSerieViewModel.selectedSerie.observe(viewLifecycleOwner, Observer {selectedSerie ->
             updateView(selectedSerie)
         })
+
+        binding.serieLibraryToggleButton.setOnClickListener {
+            selectedSerieViewModel.updateSelectedSerieInLibrary(
+                requireContext(),
+                binding.serieLibraryToggleButton.isChecked
+            )
+        }
 
         binding.serieBooksRecycler.setHasFixedSize(false)
 
@@ -75,6 +83,8 @@ class SeriesFragment : Fragment() {
                 selectedSerie.serie.imageFileName,
                 requireContext()
             )
+
+            binding.serieLibraryToggleButton.isChecked = selectedSerie.serie.favourite
         }
     }
 }

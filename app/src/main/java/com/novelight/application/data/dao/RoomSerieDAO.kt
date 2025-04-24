@@ -14,11 +14,17 @@ interface RoomSerieDAO {
     @Query("select * from serie")
     fun getSeries(): List<RoomSerie>
 
+    @Query("select * from serie where favourite = 1")
+    fun getFavouriteSeries(): List<RoomSerie>
+
     @Query("select * from serie where serie_id = :serieId limit 1")
     fun getSerie(serieId: Int): RoomSerie
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertSerie(serie: RoomSerie)
+
+    @Query("update serie set favourite = :toggle where serie_id = :serieId")
+    fun updateSerieInLibrary(serieId: Int, toggle: Boolean)
 
     @Query("delete from Serie where serie_id = :serieId")
     fun deleteSerie(serieId: Int)

@@ -33,6 +33,12 @@ class RoomRepositori {
             return series
         }
 
+        fun getFavouriteSeries(context: Context): List<RoomSerie> {
+            repo_database = initializeDB(context)
+
+            return repo_database!!.roomSerieDAO().getFavouriteSeries()
+        }
+
         fun getSerie(context: Context, serieId: Int): RoomSerie? {
             repo_database = initializeDB(context)
 
@@ -86,6 +92,14 @@ class RoomRepositori {
 
             CoroutineScope(IO).launch {
                 repo_database!!.roomSerieStaffCrossRefDAO().addSerieStaffCrossRef(serieStaffCrossRef)
+            }
+        }
+
+        fun updateSerieInLibrary(context: Context, serieId: Int, toggle: Boolean) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomSerieDAO().updateSerieInLibrary(serieId, toggle)
             }
         }
 
