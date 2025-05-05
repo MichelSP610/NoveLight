@@ -34,7 +34,8 @@ class UpdatesFragment : Fragment() {
         })
         Thread({
             runBlocking {
-                releaseViewModel.loadReleases()
+                releaseViewModel.loadSeries(requireContext())
+                releaseViewModel.loadReleases(requireContext())
             }
         }).start()
 
