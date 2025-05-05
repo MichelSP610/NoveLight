@@ -6,6 +6,7 @@ import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSeriesMod
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RanobeService {
     @GET("series/{id}")
@@ -13,6 +14,16 @@ interface RanobeService {
 
     @GET("book/{id}")
     fun getBook(@Path("id") id: Int): Call<RanobeBook>
-    @GET("releases?q=&rl=en&sort=Release+date+desc&limit=100&rf=print")
-    fun getReleases(): Call<RanobeReleasesModel>
+
+//    @GET("releases?q=Sword%20Art%20Online%20Progressive&rl=en&sort=Release+date+desc&limit=25&rf=print")
+//    fun getReleases(): Call<RanobeReleasesModel>
+
+    @GET("releases")
+    fun getReleases(
+        @Query("q") title: String,
+        @Query("rl") rl: String = "en",
+        @Query("sort") sort: String = "Release date desc",
+        @Query("limit") limit: Int = 25,
+        @Query("rf") rf: String = "print"
+    ): Call<RanobeReleasesModel>
 }

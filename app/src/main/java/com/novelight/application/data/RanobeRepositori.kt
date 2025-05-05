@@ -1,10 +1,13 @@
 package com.novelight.application.data
 
+import android.content.Context
 import com.novelight.application.data.entities.RoomBook
 import android.util.Log
+import com.novelight.application.data.dao.RoomSerieDAO
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.data.service.RanobeService
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleaseModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleasesModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSeriesModel
@@ -32,7 +35,7 @@ class RanobeRepositori {
             return series
         }
 
-        fun getSerie(id: Int) :RanobeSerieModel? {
+        fun getSerie(id: Int): RanobeSerieModel? {
             var serie: RanobeSerieModel? = null
 
             val serieCall: Call<RanobeSeriesModel> = service.getSerie(id)
@@ -42,7 +45,7 @@ class RanobeRepositori {
             return serie;
         }
 
-        fun getBook(id: Int) :RanobeBook? {
+        fun getBook(id: Int): RanobeBook? {
             var book: RanobeBook? = null
 
             val bookCall: Call<RanobeBook> = service.getBook(id)
@@ -51,15 +54,25 @@ class RanobeRepositori {
 
             return book
         }
-        fun getReleases(): List<RanobeReleaseModel> {
-            val releases: MutableList<RanobeReleaseModel> = mutableListOf()
-            val releaseCall: Call<RanobeReleasesModel> = service.getReleases()
-            val response = releaseCall.execute()
 
-            Log.i("RELEASES", response.body().toString())
-            response.body()?.let { releases.addAll(it.releases) }
-            return releases
+
+        suspend fun getReleasesForFavorites(context: Context): List<RanobeReleaseModel> {
+            val favoriteTitles = RoomRepositori.getFavouriteSeriesTitles(context)
+            val allReleases = mutableListOf<RanobeReleaseModel>()
+
+            for (title in favoriteTitles) {
+                val response = service.getReleases(title).execute()
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    val releases = body?.releases ?: emptyList()
+                    allReleases.addAll(releases)
+
+                }
+            }
+
+            return allReleases
         }
+
 
     }
 }

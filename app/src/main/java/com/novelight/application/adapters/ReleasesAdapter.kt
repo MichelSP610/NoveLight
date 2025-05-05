@@ -57,12 +57,6 @@ class ReleasesAdapter(private val mList: List<RanobeReleaseModel>, private val c
             holder.releaseVolume.text = cleanVolume
             holder.releaseDate.text = formatDate(release.release_date)
 
-
-
-
-
-
-
         }
 
     }
