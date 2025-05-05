@@ -27,15 +27,6 @@
             app:destination="@id/configFragment3" />
     </fragment>
     <fragment
-        android:id="@+id/historyFragment"
-        android:name="com.novelight.application.fragments.mainfragments.HistoryFragment"
-        android:label="Historial"
-        tools:layout="@layout/fragment_history" >
-        <action
-            android:id="@+id/action_historyFragment_to_configFragment3"
-            app:destination="@id/configFragment3" />
-    </fragment>
-    <fragment
         android:id="@+id/exploreFragment"
         android:name="com.novelight.application.fragments.mainfragments.ExploreFragment"
         android:label="Explorar"
@@ -55,9 +46,6 @@
         <action
             android:id="@+id/action_configFragment3_to_configAppearanceFragment2"
             app:destination="@id/configAppearanceFragment2" />
-        <action
-            android:id="@+id/action_configFragment3_to_configLibFragment2"
-            app:destination="@id/configLibFragment2" />
         <action
             android:id="@+id/action_configFragment3_to_configUserFragment2"
             app:destination="@id/configUserFragment2" />
@@ -94,11 +82,6 @@
         android:name="com.novelight.application.fragments.config.ConfigAppearanceFragment"
         android:label="Apariencia"
         tools:layout="@layout/fragment_config_appearance" />
-    <fragment
-        android:id="@+id/configLibFragment2"
-        android:name="com.novelight.application.fragments.config.ConfigLibFragment"
-        android:label="Biblioteca"
-        tools:layout="@layout/fragment_config_lib" />
     <fragment
         android:id="@+id/readFragment2"
         android:name="com.novelight.application.fragments.ReadFragment"

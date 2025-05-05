@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private val homeFragments: Set<Int> = setOf(
         R.id.libraryFragment,
         R.id.updatesFragment,
-        R.id.historyFragment,
         R.id.exploreFragment
     )
 

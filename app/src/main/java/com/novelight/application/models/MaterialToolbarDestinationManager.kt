@@ -23,7 +23,6 @@ class MaterialToolbarDestinationManager(
     private val homeFragments: Set<Int> = setOf(
         R.id.libraryFragment,
         R.id.updatesFragment,
-        R.id.historyFragment,
         R.id.exploreFragment
     )
 
@@ -92,15 +91,6 @@ class MaterialToolbarDestinationManager(
                     true
                 }
 
-                // historyMenu
-                R.id.historyTest -> {
-                    true
-                }
-
-                R.id.historySettings -> {
-                    goToSettingsFragment(R.id.action_historyFragment_to_configFragment3)
-                    true
-                }
 
                 // exploreMenu
                 R.id.exploreSettings -> {

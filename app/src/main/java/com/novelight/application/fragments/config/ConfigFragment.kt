@@ -27,10 +27,6 @@ class ConfigFragment : Fragment() {
             findNavController().navigate(R.id.action_configFragment3_to_configAppearanceFragment2)
         }
 
-        binding.biblioteca.setOnClickListener{
-            findNavController().navigate(R.id.action_configFragment3_to_configLibFragment2)
-        }
-
         binding.usuari.setOnClickListener{
             findNavController().navigate(R.id.action_configFragment3_to_configUserFragment2)
         }

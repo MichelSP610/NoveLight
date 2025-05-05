@@ -46,6 +46,7 @@ class UpdatesFragment : Fragment() {
     private fun updateRecycler(list: List<RanobeReleaseModel>?) {
         if (list != null) binding.updateRecycler.adapter = ReleasesAdapter(list, requireContext())
         else binding.updateRecycler.adapter = ReleasesAdapter(listOf(), requireContext())
+        binding.progressBar.setVisibility(View.GONE)
     }
 
 }
