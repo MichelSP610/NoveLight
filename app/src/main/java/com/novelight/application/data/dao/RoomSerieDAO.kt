@@ -36,4 +36,8 @@ interface RoomSerieDAO {
     @Transaction
     @Query("select * from Serie where serie_id = :serieId")
     fun getSerieWithBooks(serieId: Int) : RoomSerieWithBooks
+
+    @Query("SELECT title FROM serie WHERE favourite = 1")
+    suspend fun getFavoriteSerieTitles(): List<String>
+
 }

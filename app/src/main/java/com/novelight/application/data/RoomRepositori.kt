@@ -1,6 +1,7 @@
 package com.novelight.application.data
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.novelight.application.data.entities.RoomBook
 import com.novelight.application.data.entities.RoomRelease
@@ -36,7 +37,15 @@ class RoomRepositori {
         fun getFavouriteSeries(context: Context): List<RoomSerie> {
             repo_database = initializeDB(context)
 
+            Log.i("FAVORITAS", repo_database!!.roomSerieDAO().getFavouriteSeries().toString())
             return repo_database!!.roomSerieDAO().getFavouriteSeries()
+        }
+
+        suspend fun getFavouriteSeriesTitles(context: Context): List<String> {
+            repo_database = initializeDB(context)
+
+            Log.i("FAVORITAS", repo_database!!.roomSerieDAO().getFavouriteSeries().toString())
+            return repo_database!!.roomSerieDAO().getFavoriteSerieTitles()
         }
 
         fun getSerie(context: Context, serieId: Int): RoomSerie? {
