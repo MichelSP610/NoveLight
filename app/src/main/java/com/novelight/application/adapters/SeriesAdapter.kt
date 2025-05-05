@@ -55,6 +55,7 @@ class SeriesAdapter(private val mList: List<RoomSerie>, private val fragment: Fr
                 fragment.findNavController().navigate(R.id.action_libraryFragment_to_seriesFragment2)
             }
         }
+
     }
 
     // return the number of the items in the list

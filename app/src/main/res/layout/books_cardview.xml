@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="6dp"
+    android:background="@color/background_Color"
     android:layout_marginTop="5dp">
 
     <LinearLayout
         android:id="@+id/bookLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/SerieBooksBackgroundColor"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,7 +29,8 @@
                 android:id="@+id/bookTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Book Title" />
+                android:text="Book Title"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
@@ -41,7 +44,8 @@
                 android:id="@+id/bookReleaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01/01/0001"/>
+                android:text="01/01/0001"
+                android:textColor="@color/white"/>
         </LinearLayout>
 
 

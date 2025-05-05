@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.novelight.application.R
 import com.novelight.application.adapters.BooksAdapter
 import com.novelight.application.data.entities.RoomSerieWithBooks
 import com.novelight.application.data.entities.RoomStaff
 import com.novelight.application.databinding.FragmentSeriesBinding
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeStaff
+import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobePublicationStatus
 import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobeStaffRoleType
 import com.novelight.application.utils.CustomUtils
 import com.novelight.application.viewModels.SelectedSerieViewModel
@@ -83,6 +85,21 @@ class SeriesFragment : Fragment() {
                 selectedSerie.serie.imageFileName,
                 requireContext()
             )
+
+            val statusEnum = selectedSerie.serie.publication_status
+            binding.serieStatusName.text = statusEnum.value
+
+
+            val iconRes = when (statusEnum) {
+                RanobePublicationStatus.ONGOING -> R.drawable.ongoingicon
+                RanobePublicationStatus.COMPLETED -> R.drawable.completedicon
+                RanobePublicationStatus.HIATUS -> R.drawable.hiatusicon
+                RanobePublicationStatus.CANCELLED -> R.drawable.cancelledicon
+                RanobePublicationStatus.STALLED -> R.drawable.unknownicon
+                RanobePublicationStatus.UNKNOWN -> R.drawable.unknownicon
+            }
+
+            binding.serieStatusIcon.setImageResource(iconRes)
 
             binding.serieLibraryToggleButton.isChecked = selectedSerie.serie.favourite
         }
