@@ -34,18 +34,6 @@
             app:showAsAction="ifRoom" />
     </group>
 
-    <group android:id="@id/historyFragment">
-        <item
-            android:id="@+id/historyTest"
-            android:icon="@drawable/history_24dp_e8eaed_fill0_wght400_grad0_opsz24"
-            android:title="@string/settings"
-            app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/historySettings"
-            android:icon="@drawable/settings_24dp_e8eaed_fill0_wght400_grad0_opsz24"
-            android:title="@string/settings"
-            app:showAsAction="ifRoom" />
-    </group>
 
     <group android:id="@id/exploreFragment">
         <item

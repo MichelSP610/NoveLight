@@ -11,11 +11,6 @@
         android:icon="@drawable/sync_alt_24dp_e8eaed_fill0_wght400_grad0_opsz24"
         android:title="@string/actualitzacions" />
     <item
-        android:id="@+id/historyFragment"
-        android:enabled="true"
-        android:icon="@drawable/history_24dp_e8eaed_fill0_wght400_grad0_opsz24"
-        android:title="@string/historial" />
-    <item
         android:id="@+id/exploreFragment"
         android:enabled="true"
         android:icon="@drawable/explore_24dp_e8eaed_fill0_wght400_grad0_opsz24"

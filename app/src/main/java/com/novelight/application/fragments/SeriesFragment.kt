@@ -102,6 +102,9 @@ class SeriesFragment : Fragment() {
             binding.serieStatusIcon.setImageResource(iconRes)
 
             binding.serieLibraryToggleButton.isChecked = selectedSerie.serie.favourite
+
+            binding.progressBar.setVisibility(View.GONE)
+            binding.nestedScrollView.setVisibility(View.VISIBLE)
         }
     }
 }
