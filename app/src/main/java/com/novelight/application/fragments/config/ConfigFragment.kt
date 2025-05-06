@@ -23,9 +23,6 @@ class ConfigFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding = FragmentConfigBinding.inflate(inflater, container, false)
 
-        binding.apariencia.setOnClickListener{
-            findNavController().navigate(R.id.action_configFragment3_to_configAppearanceFragment2)
-        }
 
         binding.usuari.setOnClickListener{
             findNavController().navigate(R.id.action_configFragment3_to_configUserFragment2)

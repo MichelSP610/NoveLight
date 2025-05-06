@@ -44,9 +44,6 @@
         android:label="Configuració"
         tools:layout="@layout/fragment_config" >
         <action
-            android:id="@+id/action_configFragment3_to_configAppearanceFragment2"
-            app:destination="@id/configAppearanceFragment2" />
-        <action
             android:id="@+id/action_configFragment3_to_configUserFragment2"
             app:destination="@id/configUserFragment2" />
         <action
@@ -77,11 +74,6 @@
         android:name="com.novelight.application.fragments.config.ConfigAboutFragment"
         android:label="Sobre l'aplicació"
         tools:layout="@layout/fragment_config_about" />
-    <fragment
-        android:id="@+id/configAppearanceFragment2"
-        android:name="com.novelight.application.fragments.config.ConfigAppearanceFragment"
-        android:label="Apariencia"
-        tools:layout="@layout/fragment_config_appearance" />
     <fragment
         android:id="@+id/readFragment2"
         android:name="com.novelight.application.fragments.ReadFragment"
