@@ -46,6 +46,14 @@ class LibraryFragment : Fragment() {
         libraryViewModel.librarySeries.observe(viewLifecycleOwner, Observer { series ->
             updateRecycler(series)
         })
+        filterViewModel.query.observe(viewLifecycleOwner) { query ->
+            libraryViewModel.searchSeriesByTitle(requireContext(), query)
+        }
+
+        libraryViewModel.filteredSeries.observe(viewLifecycleOwner) { results ->
+            updateRecycler(results)
+        }
+
 
         Thread({
             runBlocking {

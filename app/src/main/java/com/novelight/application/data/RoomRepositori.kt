@@ -3,6 +3,7 @@ package com.novelight.application.data
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.novelight.application.data.RoomDataBase.Companion.getDatabase
 import com.novelight.application.data.entities.RoomBook
 import com.novelight.application.data.entities.RoomBookWithRelease
 import com.novelight.application.data.entities.RoomRelease
@@ -170,6 +171,11 @@ class RoomRepositori {
                 repo_database!!.roomSerieDAO().deleteSerie(serieId)
             }
         }
+
+        suspend fun searchSeriesByTitle(context: Context, query: String): List<RoomSerie> {
+            return getDatabase(context).roomSerieDAO().searchFavouriteSeriesByTitle(query)
+        }
+
 
 //        fun addAlumne(alumne: Alumne, context: Context) {
 //            repo_database = initializeDB(context)
