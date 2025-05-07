@@ -5,13 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.novelight.application.R
 import com.novelight.application.data.entities.RoomBook
 import com.novelight.application.data.entities.RoomRelease
 import com.novelight.application.utils.CustomUtils
+import com.novelight.application.viewModels.SelectedReleaseViewModel
 
-class BookReleasesAdapter(private val mList: List<RoomRelease>): RecyclerView.Adapter<BookReleasesAdapter.ViewHolder>() {
+class BookReleasesAdapter(private val mList: List<RoomRelease>, private val viewModel: SelectedReleaseViewModel, private val navController: NavController): RecyclerView.Adapter<BookReleasesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
@@ -28,6 +30,11 @@ class BookReleasesAdapter(private val mList: List<RoomRelease>): RecyclerView.Ad
 
         holder.releaseTitle.text = release.title
         holder.releaseReleaseDate.text = CustomUtils.getFormattedDateString(release.release_date) + " - " + release.format.value
+
+        holder.layout.setOnClickListener {
+            viewModel.setSelectedReleaseId(release.id)
+            navController.navigate(R.id.action_bookFragment_to_releaseFragment)
+        }
     }
 
     // return the number of the items in the list

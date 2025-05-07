@@ -42,7 +42,7 @@ class SelectedBookViewModel: ViewModel() {
                 RoomRepositori.updateBook(context, CustomUtils.getRoomBookFromRanobeBook(ranobeBook, 0))
                 ranobeBook.releases.let {
                     ranobeBook.releases!!.forEach {
-                        RoomRepositori.updateRelease(context, CustomUtils.getRoomReleaseFromRanobeRelease(it, selectedBookId))
+                        RoomRepositori.updateRelease(context, CustomUtils.getRoomReleaseFromRanobeRelease(it, selectedBookId, null))
                     }
                 }
                 loadBook(context)

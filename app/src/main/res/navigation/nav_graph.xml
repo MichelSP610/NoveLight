@@ -75,18 +75,10 @@
         android:label="Sobre l'aplicació"
         tools:layout="@layout/fragment_config_about" />
     <fragment
-        android:id="@+id/readFragment2"
-        android:name="com.novelight.application.fragments.ReadFragment"
-        android:label="Llegir"
-        tools:layout="@layout/fragment_read" />
-    <fragment
         android:id="@+id/seriesFragment2"
         android:name="com.novelight.application.fragments.SeriesFragment"
         android:label="Serie"
         tools:layout="@layout/fragment_series" >
-        <action
-            android:id="@+id/action_seriesFragment2_to_readFragment2"
-            app:destination="@id/readFragment2" />
         <action
             android:id="@+id/action_seriesFragment2_to_bookFragment"
             app:destination="@id/bookFragment" />
@@ -94,5 +86,14 @@
     <fragment
         android:id="@+id/bookFragment"
         android:name="com.novelight.application.fragments.BookFragment"
-        android:label="BookFragment" />
+        android:label="Llibre" >
+        <action
+            android:id="@+id/action_bookFragment_to_releaseFragment"
+            app:destination="@id/releaseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/releaseFragment"
+        android:name="com.novelight.application.fragments.ReleaseFragment"
+        android:label="fragment_release"
+        tools:layout="@layout/fragment_release" />
 </navigation>

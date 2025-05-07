@@ -66,6 +66,12 @@ class RoomRepositori {
             return serie
         }
 
+        fun getRelease(context: Context, releaseId: Int): RoomRelease {
+            repo_database = initializeDB(context)
+
+            return repo_database!!.roomReleaseDAO().getRelease(releaseId)
+        }
+
         fun getSerieWithBooks(context: Context, serieId: Int): RoomSerieWithBooks? {
             repo_database = initializeDB(context)
 
@@ -161,6 +167,14 @@ class RoomRepositori {
                         romaji = release.romaji.toString()
                     )
                 }
+            }
+        }
+
+        fun updateLastPageRead(context: Context, releaseId:Int, lastPageRead: Int) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomReleaseDAO().updateLastPageRead(releaseId, lastPageRead)
             }
         }
 

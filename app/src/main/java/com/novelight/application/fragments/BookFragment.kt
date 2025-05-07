@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.novelight.application.R
 import com.novelight.application.adapters.BookReleasesAdapter
@@ -21,12 +22,14 @@ import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobeRel
 import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobeStaffRoleType
 import com.novelight.application.utils.CustomUtils
 import com.novelight.application.viewModels.SelectedBookViewModel
+import com.novelight.application.viewModels.SelectedReleaseViewModel
 import com.novelight.application.viewModels.SelectedSerieViewModel
 
 class BookFragment : Fragment() {
 
     private lateinit var binding: FragmentBookBinding
     private val selectedBookViewModel: SelectedBookViewModel by activityViewModels<SelectedBookViewModel>()
+    private val selectedReleaseViewModel: SelectedReleaseViewModel by activityViewModels<SelectedReleaseViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,14 +57,14 @@ class BookFragment : Fragment() {
         if (selectedBook != null) {
             binding.bookReleasesRecycler.adapter = BookReleasesAdapter(
                 selectedBook.releases.filter {
-                    it.format == RanobeReleaseFormat.PRINT || it.format == RanobeReleaseFormat.DIGITAL
-                }.sortedByDescending { it.release_date }
+                    (it.format == RanobeReleaseFormat.PRINT || it.format == RanobeReleaseFormat.DIGITAL)
+                            && it.pages != null
+                }.sortedByDescending { it.release_date },
+                selectedReleaseViewModel,
+                findNavController()
             )
 
             binding.bookTitle.text = selectedBook.book.title
-
-            //TODO: get book description
-//            binding.bookDescription.text = selectedBook.book.
 
             binding.bookReleaseCount.text = selectedBook.releases.size.toString() + " Releases"
 

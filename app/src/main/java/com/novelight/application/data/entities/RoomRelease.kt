@@ -21,5 +21,7 @@ data class RoomRelease(
     @ColumnInfo("pages")
     val pages: Int?,
     @ColumnInfo("format")
-    val format: RanobeReleaseFormat
+    val format: RanobeReleaseFormat,
+    @ColumnInfo("last_page_read")
+    val lastPageRead: Int
 )

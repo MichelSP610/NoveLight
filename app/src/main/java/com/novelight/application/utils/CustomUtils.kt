@@ -91,7 +91,9 @@ class CustomUtils {
             )
         }
 
-        fun getRoomReleaseFromRanobeRelease(ranobeRelease: RanobeRelease, bookId: Int) :RoomRelease {
+        fun getRoomReleaseFromRanobeRelease(ranobeRelease: RanobeRelease, bookId: Int, lastPageRead: Int?) :RoomRelease {
+            val lastPage: Int = lastPageRead ?: 0
+
             return RoomRelease(
                 id = ranobeRelease.id,
                 bookId = bookId,
@@ -99,7 +101,8 @@ class CustomUtils {
                 romaji = ranobeRelease.romaji,
                 release_date = ranobeRelease.release_date,
                 pages = ranobeRelease.pages,
-                format = ranobeRelease.format
+                format = ranobeRelease.format,
+                lastPageRead = lastPage
             )
         }
 

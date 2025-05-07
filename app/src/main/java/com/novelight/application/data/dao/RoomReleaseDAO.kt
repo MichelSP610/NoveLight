@@ -19,4 +19,7 @@ interface RoomReleaseDAO {
 
     @Query("update `Release` set title = :title, romaji = :romaji where id = :releaseId")
     fun updateRelease(releaseId: Int, title: String, romaji: String)
+
+    @Query("update `Release` set last_page_read = :lastPageRead where id = :releaseId")
+    fun updateLastPageRead(releaseId: Int, lastPageRead: Int)
 }

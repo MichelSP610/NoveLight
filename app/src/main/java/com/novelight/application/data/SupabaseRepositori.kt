@@ -1,15 +1,13 @@
 package com.novelight.application.data
 
-import android.util.Log
-import com.novelight.application.models.apiModels.supabaseModels.SupabaseSerie
-import com.novelight.application.utils.CustomUtils
+import com.novelight.application.models.apiModels.supabaseModels.SupabaseFavouriteSerie
+import com.novelight.application.models.apiModels.supabaseModels.SupabaseReadRelease
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.query.filter.TextSearchType
 
 class SupabaseRepositori {
     companion object {
@@ -44,29 +42,29 @@ class SupabaseRepositori {
             }
         }
 
-        suspend fun getSeries(): List<SupabaseSerie> {
-            return supabase.from("Serie").select().decodeList<SupabaseSerie>()
+        suspend fun getSeries(): List<SupabaseFavouriteSerie> {
+            return supabase.from("FavouriteSerie").select().decodeList<SupabaseFavouriteSerie>()
         }
 
-        //TODO fix parse errors and make search use half words to work
-        suspend fun getSeriesByTitle(title: String): List<SupabaseSerie> {
-            val query = CustomUtils.getRanobeTitleQuery(title)
-            Log.i("QUERY", query)
-            return supabase.from("Serie").select {
-                filter {
-                    textSearch("title", query, TextSearchType.NONE)
-                }
-            }.decodeList<SupabaseSerie>()
+        suspend fun getReleases(): List<SupabaseReadRelease> {
+            return supabase.from("ReadRelease").select().decodeList<SupabaseReadRelease>()
         }
 
-//        private suspend fun anonymousUserIfNotLoggedIn() {
-//            Log.d("USER", supabase.auth.currentUserOrNull().toString())
-//            if (supabase.auth.currentUserOrNull() == null) {
-//                Log.d("USER2", supabase.auth.currentUserOrNull().toString())
-//                supabase.auth.signInAnonymously()
-//                Log.d("USER3", supabase.auth.currentUserOrNull().toString())
-//            }
-//        }
+        suspend fun removeFavourites(listIdsToSave: List<Int>) {
+            supabase.from("FavouriteSerie").delete()
+        }
 
+        suspend fun removeReleases() {
+            supabase.from("ReadReleases").delete()
+        }
+
+        suspend fun insertReleases(releases: List<SupabaseReadRelease>) {
+            supabase.from("ReadRelease").insert(releases)
+
+        }
+
+        suspend fun insertSeries(series: List<SupabaseFavouriteSerie>) {
+            supabase.from("FavouriteSerie").insert(series)
+        }
     }
 }

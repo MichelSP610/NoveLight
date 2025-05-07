@@ -3,7 +3,7 @@ package com.novelight.application.models.apiModels.supabaseModels
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SupabaseSerie(
+data class SupabaseFavouriteSerie(
     val id: Int,
-    val title: String
+    val serie_id: Int
 )

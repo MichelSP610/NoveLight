@@ -1,7 +1,6 @@
 package com.novelight.application.viewModels
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,6 @@ import com.novelight.application.data.RanobeRepositori
 import com.novelight.application.data.RoomRepositori
 import com.novelight.application.data.entities.RoomBook
 import com.novelight.application.data.entities.RoomRelease
-import com.novelight.application.data.entities.RoomSerie
 import com.novelight.application.data.entities.RoomSerieStaffCrossRef
 import com.novelight.application.data.entities.RoomSerieWithBooks
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
@@ -51,7 +49,6 @@ class SelectedSerieViewModel: ViewModel() {
 
     private suspend fun updateSerieInformation(context: Context) {
         val ranobeSerie: RanobeSerieModel? = RanobeRepositori.getSerie(id = selectedSerieId)
-        Log.i("Serie", ranobeSerie.toString())
 
         if (ranobeSerie != null) {
             RoomRepositori.updateSerie(context, CustomUtils.getRoomSerieFromRanobeSerie(ranobeSerie))
@@ -62,7 +59,7 @@ class SelectedSerieViewModel: ViewModel() {
                 RoomRepositori.addBook(context, roomBook)
 
                 ranobeBook?.releases?.forEach { release ->
-                    val roomRelease: RoomRelease = CustomUtils.getRoomReleaseFromRanobeRelease(release, ranobeBook.id)
+                    val roomRelease: RoomRelease = CustomUtils.getRoomReleaseFromRanobeRelease(release, ranobeBook.id, null)
                     RoomRepositori.addRelease(context, roomRelease)
                 }
             }
