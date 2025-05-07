@@ -21,6 +21,8 @@
     <string name="volume_count">Volume Count</string>
     <string name="release_count">Release Count</string>
     <string name="placeholder_date">01/01/0001</string>
+    <string name="aquesta_aplicaci_no_recull_dades_personals_les_dades_de_la_biblioteca_es_guarden_localment_al_dispositiu_utilitzem_fonts_externes_nom_s_per_mostrar_informaci_de_novel_les">Aquesta aplicació no recull dades personals. Les dades de la biblioteca es guarden localment al dispositiu. Utilitzem fonts externes només per mostrar informació de novel·les.</string>
+    <string name="pol_tica_de_privacitat">Política de privacitat</string>
 
 
     <string-array name="SyncData_Array">

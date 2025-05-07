@@ -72,7 +72,17 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@color/white"
-                android:text="Politica de privacitat" />
+                android:text="@string/pol_tica_de_privacitat" />
+
+            <TextView
+                android:id="@+id/privacyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/aquesta_aplicaci_no_recull_dades_personals_les_dades_de_la_biblioteca_es_guarden_localment_al_dispositiu_utilitzem_fonts_externes_nom_s_per_mostrar_informaci_de_novel_les"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
