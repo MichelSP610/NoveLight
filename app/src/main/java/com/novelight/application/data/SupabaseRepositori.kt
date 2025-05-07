@@ -131,7 +131,7 @@ class SupabaseRepositori {
         }
 
         private suspend fun removeReleases() {
-            supabase.from("ReadReleases").delete {
+            supabase.from("ReadRelease").delete {
                 filter {
                     neq("id", 0)
                 }
