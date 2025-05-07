@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.navigation.fragment.findNavController
 import com.novelight.application.R
+import com.novelight.application.data.SupabaseRepositori
 import com.novelight.application.databinding.FragmentConfigBinding
 import com.novelight.application.databinding.FragmentConfigUserBinding
 
@@ -40,6 +41,10 @@ class ConfigUserFragment : Fragment() {
 
         binding.buttonUserSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_configUserFragment2_to_registerFragment)
+        }
+
+        binding.button5.setOnClickListener {
+            SupabaseRepositori.updateData(requireContext());
         }
 
 
