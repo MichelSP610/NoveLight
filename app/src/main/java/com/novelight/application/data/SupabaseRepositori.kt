@@ -38,28 +38,8 @@ class SupabaseRepositori {
             }
 
             Thread {
-                runBlocking {
-                    insertSeries(
-                        RoomRepositori.getFavouriteSeries(context)
-                            .map { SupabaseFavouriteSerie(it.id) }
-                    )
-                }
-            }.start()
-
-            Thread {
-                runBlocking {
-                    insertReleases(
-                        RoomRepositori.getReadReleases(context)
-                            .map {
-                                SupabaseReadRelease(
-                                    release_id = it.id,
-                                    book_id = it.bookId,
-                                    last_page_read = it.lastPageRead
-                                )
-                            }
-                    )
-                }
-            }.start()
+                updateData(context)
+            }
         }
 
         suspend fun logIn(mail: String, passwd: String, context: Context) {
@@ -103,8 +83,35 @@ class SupabaseRepositori {
             }.start()
         }
 
-        suspend fun updateData() {
+        fun updateData(context: Context) {
+            runBlocking {
+                removeFavourites()
+                removeReleases()
+            }
 
+            Thread {
+                runBlocking {
+                    insertSeries(
+                        RoomRepositori.getFavouriteSeries(context)
+                            .map { SupabaseFavouriteSerie(it.id) }
+                    )
+                }
+            }.start()
+
+            Thread {
+                runBlocking {
+                    insertReleases(
+                        RoomRepositori.getReadReleases(context)
+                            .map {
+                                SupabaseReadRelease(
+                                    release_id = it.id,
+                                    book_id = it.bookId,
+                                    last_page_read = it.lastPageRead
+                                )
+                            }
+                    )
+                }
+            }.start()
         }
 
         private suspend fun getSeries(): List<SupabaseFavouriteSerie> {
@@ -115,7 +122,7 @@ class SupabaseRepositori {
             return supabase.from("ReadRelease").select().decodeList<SupabaseReadRelease>()
         }
 
-        private suspend fun removeFavourites(listIdsToSave: List<Int>) {
+        private suspend fun removeFavourites() {
             supabase.from("FavouriteSerie").delete()
         }
 
