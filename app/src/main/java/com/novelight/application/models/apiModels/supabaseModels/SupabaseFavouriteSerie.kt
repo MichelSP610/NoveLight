@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SupabaseFavouriteSerie(
-    val id: Int,
+    val id: Int?,
     val serie_id: Int
 )

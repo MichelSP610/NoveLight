@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
             checkFieldsNotNull()
             CustomUtils.checkEmailFormat(email)
 
-            if (signViewModel.logIn(email, password)) {
+            if (signViewModel.logIn(email, password, requireContext())) {
                 Toast.makeText(context, "User logged in successfullly", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {

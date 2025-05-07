@@ -21,4 +21,7 @@ interface RoomBookDAO {
     @Query("select * from Book where id = :bookId")
     fun getBookWithReleases(bookId: Int): RoomBookWithRelease
 
+    @Query("delete from book")
+    fun deleteAllBooks()
+
 }

@@ -44,7 +44,7 @@ class RegisterFragment : Fragment() {
             CustomUtils.checkEmailFormat(email)
             checkPasswordConfirmation()
 
-            if (signViewModel.registerUser(email, password)) {
+            if (signViewModel.registerUser(email, password, requireContext())) {
                 Toast.makeText(context, "User registered successfuly\nPlease verify your email", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {

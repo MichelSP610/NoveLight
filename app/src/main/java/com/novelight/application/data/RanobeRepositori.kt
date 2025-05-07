@@ -8,6 +8,7 @@ import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieMode
 import com.novelight.application.data.service.RanobeService
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetBook
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetSerie
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleaseModel
@@ -47,6 +48,16 @@ class RanobeRepositori {
         suspend fun getBook(id: Int): RanobeBook? = withContext(Dispatchers.IO) {
             val response = service.getBook(id).execute()
             return@withContext response.body()?.book
+        }
+
+        fun getRelease(id: Int): RanobeRelease {
+            var release: RanobeGetRelease? = null
+
+            val serieCall: Call<RanobeGetRelease> = service.getRelease(id)
+            val response = serieCall.execute()
+            response.body()?.let { release = it }
+
+            return release!!.release
         }
 
 

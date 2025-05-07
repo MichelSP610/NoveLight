@@ -1,5 +1,6 @@
 package com.novelight.application.viewModels.config.sign
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import co.touchlab.kermit.Logger
 import com.novelight.application.data.SupabaseRepositori
@@ -7,9 +8,9 @@ import io.github.jan.supabase.auth.exception.AuthRestException
 
 class SignViewModel : ViewModel() {
 
-    suspend fun registerUser(mail: String, passwd: String): Boolean {
+    suspend fun registerUser(mail: String, passwd: String, context: Context): Boolean {
         try {
-            SupabaseRepositori.createUser(mail, passwd)
+            SupabaseRepositori.createUser(mail, passwd, context)
             return true
         } catch (error: AuthRestException) {
             when (error.error) {
@@ -33,9 +34,9 @@ class SignViewModel : ViewModel() {
         }
     }
 
-    suspend fun logIn(mail: String, passwd: String): Boolean {
+    suspend fun logIn(mail: String, passwd: String, context: Context): Boolean {
         try {
-            SupabaseRepositori.logIn(mail, passwd)
+            SupabaseRepositori.logIn(mail, passwd, context)
             return true
         } catch (error: AuthRestException) {
             when (error.error) {

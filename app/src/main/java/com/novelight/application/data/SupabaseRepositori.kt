@@ -1,13 +1,16 @@
 package com.novelight.application.data
 
+import android.content.Context
 import com.novelight.application.models.apiModels.supabaseModels.SupabaseFavouriteSerie
 import com.novelight.application.models.apiModels.supabaseModels.SupabaseReadRelease
+import com.novelight.application.utils.CustomUtils
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.runBlocking
 
 class SupabaseRepositori {
     companion object {
@@ -28,42 +31,101 @@ class SupabaseRepositori {
         // if accounts autoconfirm the database returns the error saying the user already exists
 
         // as of now we're gonna be leaving it like this, we will decide later if we leave it or we change it
-        suspend fun createUser(mail: String, passwd: String) {
+        suspend fun createUser(mail: String, passwd: String, context: Context) {
             supabase.auth.signUpWith(Email) {
                 email = mail
                 password = passwd
             }
+
+            Thread {
+                runBlocking {
+                    insertSeries(
+                        RoomRepositori.getFavouriteSeries(context)
+                            .map { SupabaseFavouriteSerie(null, it.id) }
+                    )
+                }
+            }.start()
+
+            Thread {
+                runBlocking {
+                    insertReleases(
+                        RoomRepositori.getReadReleases(context)
+                            .map {
+                                SupabaseReadRelease(
+                                    id = null,
+                                    release_id = it.id,
+                                    book_id = it.bookId,
+                                    last_page_read = it.lastPageRead
+                                )
+                            }
+                    )
+                }
+            }.start()
         }
 
-        suspend fun logIn(mail: String, passwd: String) {
+        suspend fun logIn(mail: String, passwd: String, context: Context) {
             supabase.auth.signInWith(Email) {
                 email = mail
                 password = passwd
             }
+
+            Thread {
+                RoomRepositori.deleteAllReleases(context)
+                RoomRepositori.deleteAllBooks(context)
+                RoomRepositori.deleteAllSerieStaffCrossRef(context)
+                RoomRepositori.deleteAllSeries(context)
+
+                runBlocking {
+                    val supabaseSeries: List<SupabaseFavouriteSerie> = getSeries()
+                    supabaseSeries.forEach {
+                        val ranobeSerie = RanobeRepositori.getSerie(it.serie_id)!!
+                        RoomRepositori.addSerie(
+                            context,
+                            CustomUtils.getRoomSerieFromRanobeSerie(ranobeSerie)
+                        )
+                        RoomRepositori.updateSerieInLibrary(context, ranobeSerie.id, true)
+                    }
+                }
+
+                runBlocking {
+                    val supabaseReadRelease: List<SupabaseReadRelease> = getReleases()
+                    supabaseReadRelease.forEach {
+                        val ranobeRelease = RanobeRepositori.getRelease(it.release_id)
+                        RoomRepositori.addRelease(
+                            context,
+                            CustomUtils.getRoomReleaseFromRanobeRelease(
+                                ranobeRelease,
+                                it.book_id,
+                                it.last_page_read
+                            )
+                        )
+                    }
+                }
+            }.start()
         }
 
-        suspend fun getSeries(): List<SupabaseFavouriteSerie> {
+        private suspend fun getSeries(): List<SupabaseFavouriteSerie> {
             return supabase.from("FavouriteSerie").select().decodeList<SupabaseFavouriteSerie>()
         }
 
-        suspend fun getReleases(): List<SupabaseReadRelease> {
+        private suspend fun getReleases(): List<SupabaseReadRelease> {
             return supabase.from("ReadRelease").select().decodeList<SupabaseReadRelease>()
         }
 
-        suspend fun removeFavourites(listIdsToSave: List<Int>) {
+        private suspend fun removeFavourites(listIdsToSave: List<Int>) {
             supabase.from("FavouriteSerie").delete()
         }
 
-        suspend fun removeReleases() {
+        private suspend fun removeReleases() {
             supabase.from("ReadReleases").delete()
         }
 
-        suspend fun insertReleases(releases: List<SupabaseReadRelease>) {
+        private suspend fun insertReleases(releases: List<SupabaseReadRelease>) {
             supabase.from("ReadRelease").insert(releases)
 
         }
 
-        suspend fun insertSeries(series: List<SupabaseFavouriteSerie>) {
+        private suspend fun insertSeries(series: List<SupabaseFavouriteSerie>) {
             supabase.from("FavouriteSerie").insert(series)
         }
     }

@@ -72,6 +72,12 @@ class RoomRepositori {
             return repo_database!!.roomReleaseDAO().getRelease(releaseId)
         }
 
+        fun getReadReleases(context: Context): List<RoomRelease> {
+            repo_database = initializeDB(context)
+
+            return repo_database!!.roomReleaseDAO().getReadReleases()
+        }
+
         fun getSerieWithBooks(context: Context, serieId: Int): RoomSerieWithBooks? {
             repo_database = initializeDB(context)
 
@@ -183,6 +189,38 @@ class RoomRepositori {
 
             CoroutineScope(IO).launch {
                 repo_database!!.roomSerieDAO().deleteSerie(serieId)
+            }
+        }
+
+        fun deleteAllSeries(context: Context) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomSerieDAO().deleteAllSeries()
+            }
+        }
+
+        fun deleteAllBooks(context: Context) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomBookDAO().deleteAllBooks()
+            }
+        }
+
+        fun deleteAllReleases(context: Context) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomReleaseDAO().deleteAllReleases()
+            }
+        }
+
+        fun deleteAllSerieStaffCrossRef(context: Context) {
+            repo_database = initializeDB(context)
+
+            CoroutineScope(IO).launch {
+                repo_database!!.roomSerieStaffCrossRefDAO().deleteAllSerieStaffCrossRef()
             }
         }
 

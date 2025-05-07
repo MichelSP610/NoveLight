@@ -1,6 +1,7 @@
 package com.novelight.application.data.service
 
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetBook
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetSerie
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleasesModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetSeries
@@ -18,6 +19,9 @@ interface RanobeService {
 
     @GET("book/{id}")
     fun getBook(@Path("id") id: Int): Call<RanobeGetBook>
+
+    @GET("release/{id}")
+    fun getRelease(@Path("id") id: Int): Call<RanobeGetRelease>
 
     @GET("series")
     fun searchSeriesByTitle(
