@@ -39,7 +39,7 @@ class SupabaseRepositori {
 
             Thread {
                 updateData(context)
-            }
+            }.start()
         }
 
         suspend fun logIn(mail: String, passwd: String, context: Context) {
@@ -87,31 +87,31 @@ class SupabaseRepositori {
             runBlocking {
                 removeFavourites()
                 removeReleases()
+
+                Thread {
+                    runBlocking {
+                        insertSeries(
+                            RoomRepositori.getFavouriteSeries(context)
+                                .map { SupabaseFavouriteSerie(it.id) }
+                        )
+                    }
+                }.start()
+
+                Thread {
+                    runBlocking {
+                        insertReleases(
+                            RoomRepositori.getReadReleases(context)
+                                .map {
+                                    SupabaseReadRelease(
+                                        release_id = it.id,
+                                        book_id = it.bookId,
+                                        last_page_read = it.lastPageRead
+                                    )
+                                }
+                        )
+                    }
+                }.start()
             }
-
-            Thread {
-                runBlocking {
-                    insertSeries(
-                        RoomRepositori.getFavouriteSeries(context)
-                            .map { SupabaseFavouriteSerie(it.id) }
-                    )
-                }
-            }.start()
-
-            Thread {
-                runBlocking {
-                    insertReleases(
-                        RoomRepositori.getReadReleases(context)
-                            .map {
-                                SupabaseReadRelease(
-                                    release_id = it.id,
-                                    book_id = it.bookId,
-                                    last_page_read = it.lastPageRead
-                                )
-                            }
-                    )
-                }
-            }.start()
         }
 
         private suspend fun getSeries(): List<SupabaseFavouriteSerie> {
@@ -123,11 +123,19 @@ class SupabaseRepositori {
         }
 
         private suspend fun removeFavourites() {
-            supabase.from("FavouriteSerie").delete()
+            supabase.from("FavouriteSerie").delete {
+                filter {
+                    neq("id", 0)
+                }
+            }
         }
 
         private suspend fun removeReleases() {
-            supabase.from("ReadReleases").delete()
+            supabase.from("ReadReleases").delete {
+                filter {
+                    neq("id", 0)
+                }
+            }
         }
 
         private suspend fun insertReleases(releases: List<SupabaseReadRelease>) {

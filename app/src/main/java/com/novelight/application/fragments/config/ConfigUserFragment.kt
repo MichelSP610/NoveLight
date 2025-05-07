@@ -47,7 +47,6 @@ class ConfigUserFragment : Fragment() {
             SupabaseRepositori.updateData(requireContext());
         }
 
-
         return binding.root
     }
 
