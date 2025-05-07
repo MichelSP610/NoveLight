@@ -41,7 +41,7 @@ class SupabaseRepositori {
                 runBlocking {
                     insertSeries(
                         RoomRepositori.getFavouriteSeries(context)
-                            .map { SupabaseFavouriteSerie(null, it.id) }
+                            .map { SupabaseFavouriteSerie(it.id) }
                     )
                 }
             }.start()
@@ -52,7 +52,6 @@ class SupabaseRepositori {
                         RoomRepositori.getReadReleases(context)
                             .map {
                                 SupabaseReadRelease(
-                                    id = null,
                                     release_id = it.id,
                                     book_id = it.bookId,
                                     last_page_read = it.lastPageRead
@@ -102,6 +101,10 @@ class SupabaseRepositori {
                     }
                 }
             }.start()
+        }
+
+        suspend fun updateData() {
+
         }
 
         private suspend fun getSeries(): List<SupabaseFavouriteSerie> {
