@@ -43,7 +43,7 @@ class CustomUtils {
                 .into(imageView)
         }
 
-        fun getRanobeSerieImageFilename(serie: RanobeSerieModel): String {
+        suspend fun getRanobeSerieImageFilename(serie: RanobeSerieModel): String {
             val fullSerie: RanobeSerieModel? = RanobeRepositori.getSerie(serie.id)
             var index: Int? = fullSerie?.books?.lastIndex
             var imageFilename: String? = null
@@ -66,7 +66,7 @@ class CustomUtils {
                 .replace("'", "?")
         }
 
-        fun getRoomSerieFromRanobeSerie(ranobeSerie: RanobeSerieModel): RoomSerie {
+        suspend fun getRoomSerieFromRanobeSerie(ranobeSerie: RanobeSerieModel): RoomSerie {
             val bookDescription: String = ranobeSerie.book_description?.description ?: ""
             val publicationStatus: RanobePublicationStatus = ranobeSerie.publication_status ?: RanobePublicationStatus.UNKNOWN
 

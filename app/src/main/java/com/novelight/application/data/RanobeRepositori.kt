@@ -13,6 +13,8 @@ import com.novelight.application.models.apiModels.ranobeDBModels.RanobeRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleaseModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleasesModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetSeries
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,24 +38,15 @@ class RanobeRepositori {
             return series!!.series
         }
 
-        fun getSerie(id: Int): RanobeSerieModel? {
-            var serie: RanobeSerieModel? = null
-
-            val serieCall: Call<RanobeGetSerie> = service.getSerie(id)
-            val response = serieCall.execute()
-            response.body()?.let { serie = it.series }
-
-            return serie;
+        suspend fun getSerie(id: Int): RanobeSerieModel? = withContext(Dispatchers.IO) {
+            val call = service.getSerie(id)
+            val response = call.execute()
+            return@withContext response.body()?.series
         }
 
-        fun getBook(id: Int): RanobeBook? {
-            var book: RanobeBook? = null
-
-            val bookCall: Call<RanobeGetBook> = service.getBook(id)
-            val response = bookCall.execute()
-            response.body()?.let { book = it.book }
-
-            return book
+        suspend fun getBook(id: Int): RanobeBook? = withContext(Dispatchers.IO) {
+            val response = service.getBook(id).execute()
+            return@withContext response.body()?.book
         }
 
 
@@ -72,6 +65,12 @@ class RanobeRepositori {
             }
 
             return allReleases
+        }
+
+        suspend fun getSeriesByTitle(title: String): List<RanobeSerieModel> = withContext(
+            Dispatchers.IO) {
+            val response = service.searchSeriesByTitle(title).execute()
+            return@withContext response.body()?.series ?: emptyList()
         }
 
 

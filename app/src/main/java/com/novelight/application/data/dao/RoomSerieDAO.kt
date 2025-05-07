@@ -50,4 +50,9 @@ interface RoomSerieDAO {
     @Query("SELECT title FROM serie WHERE favourite = 1")
     suspend fun getFavoriteSerieTitles(): List<String>
 
+    @Query("SELECT * FROM serie WHERE favourite = 1 AND title LIKE '%' || :query || '%'")
+    suspend fun searchFavouriteSeriesByTitle(query: String): List<RoomSerie>
+
+
+
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.novelight.application.adapters.SeriesAdapter
 import com.novelight.application.data.entities.RoomSerie
 import com.novelight.application.databinding.FragmentExploreBinding
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.viewModels.FilterViewModel
 import com.novelight.application.viewModels.SelectedSerieViewModel
 import com.novelight.application.viewModels.SerieViewModel
@@ -32,17 +33,15 @@ class ExploreFragment : Fragment() {
 
         binding.exploreRecycler.layoutManager = GridLayoutManager(context, 3)
 
-        filterViewModel.query.observe(viewLifecycleOwner, Observer { query ->
-            Thread({
-                runBlocking {
-                    serieViewModel.loadSeriesByTitleQuery(requireContext(), query)
-                }
-            }).start()
-        })
+        filterViewModel.query.observe(viewLifecycleOwner) { query ->
+            serieViewModel.loadSeriesFromApi(requireContext(), query)
+        }
+
 
         serieViewModel.series.observe(viewLifecycleOwner, Observer { series ->
             updateRecycler(series)
         })
+
 
         Thread({
             runBlocking {
@@ -66,5 +65,6 @@ class ExploreFragment : Fragment() {
         }
         binding.progressBar.setVisibility(View.GONE)
     }
+
 
 }

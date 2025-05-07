@@ -15,6 +15,7 @@ import com.novelight.application.data.entities.RoomSerieWithBooks
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.utils.CustomUtils
+import kotlinx.coroutines.runBlocking
 
 class SelectedSerieViewModel: ViewModel() {
     private var _selectedSerieId: Int = 0
@@ -34,7 +35,9 @@ class SelectedSerieViewModel: ViewModel() {
         _selectedSerie.postValue(RoomRepositori.getSerieWithBooks(context, selectedSerieId))
 
         Thread {
-            updateSerieInformation(context)
+            runBlocking {
+                updateSerieInformation(context)
+            }
         }.start()
     }
 
@@ -46,7 +49,7 @@ class SelectedSerieViewModel: ViewModel() {
         RoomRepositori.deleteSerie(context, selectedSerieId)
     }
 
-    private fun updateSerieInformation(context: Context) {
+    private suspend fun updateSerieInformation(context: Context) {
         val ranobeSerie: RanobeSerieModel? = RanobeRepositori.getSerie(id = selectedSerieId)
         Log.i("Serie", ranobeSerie.toString())
 

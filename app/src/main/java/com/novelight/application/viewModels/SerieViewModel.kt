@@ -1,9 +1,11 @@
 package com.novelight.application.viewModels
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.novelight.application.data.RanobeRepositori
 import com.novelight.application.data.RoomRepositori
 import com.novelight.application.data.entities.RoomSerie
@@ -11,6 +13,10 @@ import com.novelight.application.data.entities.RoomSerieStaffCrossRef
 import com.novelight.application.data.entities.RoomStaff
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.utils.CustomUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class SerieViewModel: ViewModel() {
     private var _series: MutableLiveData<List<RoomSerie>> = MutableLiveData()
@@ -61,7 +67,9 @@ class SerieViewModel: ViewModel() {
 
         series.forEach { ranobeSerie ->
             val addSerieThread: Thread = Thread {
-                addSerie(context, ranobeSerie)
+                runBlocking {
+                    addSerie(context, ranobeSerie)
+                }
             }
 
             threadList.add(addSerieThread)
@@ -74,7 +82,7 @@ class SerieViewModel: ViewModel() {
         }
     }
 
-    private fun addSerie(context: Context, ranobeSerie: RanobeSerieModel) {
+    private suspend fun addSerie(context: Context, ranobeSerie: RanobeSerieModel) {
         val roomSerie: RoomSerie = CustomUtils.getRoomSerieFromRanobeSerie(ranobeSerie)
         val roomStaffList: MutableList<RoomStaff> = mutableListOf()
         ranobeSerie.staff?.forEach { ranobeStaff ->
@@ -89,5 +97,57 @@ class SerieViewModel: ViewModel() {
             )
         }
     }
+
+    fun loadSeriesFromApi(context: Context, query: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val results = RanobeRepositori.getSeriesByTitle(query)
+            Log.i("ExploreSearch", "API returned ${results.size} results")
+
+            val threadList = mutableListOf<Thread>()
+
+            results.forEach { serie ->
+                val thread = Thread {
+                    runBlocking {
+                        val fullSerie = RanobeRepositori.getSerie(serie.id)
+
+                        val firstBookId = fullSerie?.books?.firstOrNull()?.id
+                        val imageFileName = if (firstBookId != null) {
+                            RanobeRepositori.getBook(firstBookId)?.image?.filename ?: ""
+                        } else ""
+
+                        Log.i("ImageFetch", "Series: ${fullSerie?.title} → Image: $imageFileName")
+
+                        val roomSerie = fullSerie?.publication_status?.let {
+                            RoomSerie(
+                                id = fullSerie.id,
+                                title = fullSerie.title,
+                                publication_status = it,
+                                book_description = (fullSerie.book_description ?: "").toString(),
+                                imageFileName = imageFileName,
+                                favourite = false
+                            )
+                        }
+
+                        if (roomSerie != null) {
+                            RoomRepositori.addSerie(context, roomSerie)
+                        }
+                    }
+                }
+
+                thread.start()
+                threadList.add(thread)
+                Thread.sleep(50) // optional, avoids API burst
+            }
+
+            threadList.forEach { it.join() }
+
+            val filtered = RoomRepositori.getSeriesById(context, results.map { it.id }) ?: emptyList()
+            _series.postValue(filtered)
+        }
+    }
+
+
+
+
 
 }
