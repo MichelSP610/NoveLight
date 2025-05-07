@@ -1,5 +1,8 @@
 package com.novelight.application.models.apiModels.supabaseModels
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class SupabaseReadRelease(
     val id: Int?,
     val book_id: Int,
