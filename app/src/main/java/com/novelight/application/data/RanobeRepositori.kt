@@ -7,10 +7,12 @@ import com.novelight.application.data.dao.RoomSerieDAO
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.data.service.RanobeService
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetBook
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetSerie
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleaseModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeReleasesModel
-import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSeriesModel
+import com.novelight.application.models.apiModels.ranobeDBModels.RanobeGetSeries
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,21 +26,20 @@ class RanobeRepositori {
             .build()
         private val service: RanobeService = retrofit.create(RanobeService::class.java)
 
-        fun getSeries(ids: List<Int>): List<RanobeSerieModel> {
-            val series: MutableList<RanobeSerieModel> = mutableListOf()
-            for (id in ids) {
-                val serieCall: Call<RanobeSeriesModel> = service.getSerie(id)
-                val response = serieCall.execute()
-                response.body()?.let { series.add(it.series) }
-            }
+        fun getSeries(): List<RanobeSerieModel> {
+            var series: RanobeGetSeries? = null
 
-            return series
+            val serieCall: Call<RanobeGetSeries> = service.getSeries()
+            val response = serieCall.execute()
+            response.body()?.let { series = it }
+
+            return series!!.series
         }
 
         fun getSerie(id: Int): RanobeSerieModel? {
             var serie: RanobeSerieModel? = null
 
-            val serieCall: Call<RanobeSeriesModel> = service.getSerie(id)
+            val serieCall: Call<RanobeGetSerie> = service.getSerie(id)
             val response = serieCall.execute()
             response.body()?.let { serie = it.series }
 
@@ -48,9 +49,9 @@ class RanobeRepositori {
         fun getBook(id: Int): RanobeBook? {
             var book: RanobeBook? = null
 
-            val bookCall: Call<RanobeBook> = service.getBook(id)
+            val bookCall: Call<RanobeGetBook> = service.getBook(id)
             val response = bookCall.execute()
-            response.body()?.let { book = it }
+            response.body()?.let { book = it.book }
 
             return book
         }

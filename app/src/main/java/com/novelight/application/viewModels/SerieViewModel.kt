@@ -1,18 +1,15 @@
 package com.novelight.application.viewModels
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.novelight.application.data.RanobeRepositori
 import com.novelight.application.data.RoomRepositori
-import com.novelight.application.data.SupabaseRepositori
 import com.novelight.application.data.entities.RoomSerie
 import com.novelight.application.data.entities.RoomSerieStaffCrossRef
 import com.novelight.application.data.entities.RoomStaff
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
-import com.novelight.application.models.apiModels.supabaseModels.SupabaseSerie
 import com.novelight.application.utils.CustomUtils
 
 class SerieViewModel: ViewModel() {
@@ -30,28 +27,24 @@ class SerieViewModel: ViewModel() {
         return (series.value == null || series.value!!.isEmpty())
     }
 
-    suspend fun loadSeries(context: Context) {
-        val dbSerie: List<SupabaseSerie> = SupabaseRepositori.getSeries()
-        val ranobeSeries = RanobeRepositori.getSeries(dbSerie.map { it.id })
+     fun loadSeries(context: Context) {
+        val ranobeSeries = RanobeRepositori.getSeries()
 
-        insertRoomSerie(context, ranobeSeries)
+        insertRoomSeries(context, ranobeSeries)
 
-        val series = RoomRepositori.getSeries(context)
+        val series = RoomRepositori.getSeriesById(context, ranobeSeries.map { it.id })
 
         if (series != null) {
             _series.postValue(series!!)
         }
-
-        Log.i("SERIES", series.toString())
     }
 
+    //TODO: CHANGE QUERY TO SEARCH IN API
     suspend fun loadSeriesByTitleQuery(context: Context, query: String?) {
         if (query != null && query != "") {
-            val dbSerie: List<SupabaseSerie> = SupabaseRepositori.getSeriesByTitle(query)
-            Log.i("SERIES BY TITLE", dbSerie.toString())
-            val ranobeSeries = RanobeRepositori.getSeries(dbSerie.map { it.id })
+            val ranobeSeries = RanobeRepositori.getSeries()
 
-            insertRoomSerie(context, ranobeSeries)
+            insertRoomSeries(context, ranobeSeries)
 
             val series = RoomRepositori.getSeries(context)
 
@@ -63,22 +56,37 @@ class SerieViewModel: ViewModel() {
         }
     }
 
-    private fun insertRoomSerie(context: Context, series: List<RanobeSerieModel>) {
-        series.forEach { ranobeSerie ->
-            val roomSerie: RoomSerie = CustomUtils.getRoomSerieFromRanobeSerie(ranobeSerie)
-            val roomStaffList: MutableList<RoomStaff> = mutableListOf()
-            ranobeSerie.staff.forEach { ranobeStaff ->
-                roomStaffList.add(CustomUtils.getRoomStaffFromRanobeStaff(ranobeStaff))
+    private fun insertRoomSeries(context: Context, series: List<RanobeSerieModel>) {
+        val threadList: MutableList<Thread> = mutableListOf()
 
+        series.forEach { ranobeSerie ->
+            val addSerieThread: Thread = Thread {
+                addSerie(context, ranobeSerie)
             }
-            RoomRepositori.addSerie(context, roomSerie)
-            roomStaffList.forEach { roomStaff ->
-                RoomRepositori.addStaff(context, roomStaff)
-                RoomRepositori.addSerieStaffCrosRef(
-                    context,
-                    RoomSerieStaffCrossRef(roomSerie.id, roomStaff.name)
-                )
-            }
+
+            threadList.add(addSerieThread)
+            addSerieThread.start()
+            Thread.sleep(50)
+        }
+
+        threadList.forEach {
+            it.join()
+        }
+    }
+
+    private fun addSerie(context: Context, ranobeSerie: RanobeSerieModel) {
+        val roomSerie: RoomSerie = CustomUtils.getRoomSerieFromRanobeSerie(ranobeSerie)
+        val roomStaffList: MutableList<RoomStaff> = mutableListOf()
+        ranobeSerie.staff?.forEach { ranobeStaff ->
+            roomStaffList.add(CustomUtils.getRoomStaffFromRanobeStaff(ranobeStaff))
+        }
+        RoomRepositori.addSerie(context, roomSerie)
+        roomStaffList.forEach { roomStaff ->
+            RoomRepositori.addStaff(context, roomStaff)
+            RoomRepositori.addSerieStaffCrosRef(
+                context,
+                RoomSerieStaffCrossRef(roomSerie.id, roomStaff.name)
+            )
         }
     }
 

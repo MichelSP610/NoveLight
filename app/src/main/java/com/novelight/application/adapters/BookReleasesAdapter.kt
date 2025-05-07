@@ -8,14 +8,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.novelight.application.R
 import com.novelight.application.data.entities.RoomBook
+import com.novelight.application.data.entities.RoomRelease
 import com.novelight.application.utils.CustomUtils
 
-class BooksAdapter(private val mList: List<RoomBook>): RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
+class BookReleasesAdapter(private val mList: List<RoomRelease>): RecyclerView.Adapter<BookReleasesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.books_cardview, parent, false)
+            .inflate(R.layout.read_cardview, parent, false)
 
         return ViewHolder(view)
     }
@@ -23,11 +24,10 @@ class BooksAdapter(private val mList: List<RoomBook>): RecyclerView.Adapter<Book
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val book = mList[position]
+        val release = mList[position]
 
-        holder.bookTitle.text = book.title
-        holder.bookReleaseDate.text = CustomUtils.getFormattedDateString(book.releaseDate)
-
+        holder.releaseTitle.text = release.title
+        holder.releaseReleaseDate.text = CustomUtils.getFormattedDateString(release.release_date) + " - " + release.format.value
     }
 
     // return the number of the items in the list
@@ -37,9 +37,8 @@ class BooksAdapter(private val mList: List<RoomBook>): RecyclerView.Adapter<Book
 
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-//        val bookNumber: TextView = itemView.findViewById(R.id.bookNumber)
-        val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
-        val bookReleaseDate: TextView = itemView.findViewById(R.id.bookReleaseDate)
-        val bookLayout: LinearLayout = itemView.findViewById(R.id.bookLayout)
+        val releaseTitle: TextView = itemView.findViewById(R.id.title)
+        val releaseReleaseDate: TextView = itemView.findViewById(R.id.releaseDate)
+        val layout: LinearLayout = itemView.findViewById(R.id.layout)
     }
 }

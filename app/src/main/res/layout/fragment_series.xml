@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
-                    tools:listitem="@layout/books_cardview" />
+                    tools:listitem="@layout/read_cardview" />
 
             </LinearLayout>
 

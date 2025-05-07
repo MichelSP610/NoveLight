@@ -1,7 +1,9 @@
 package com.novelight.application.utils
 
 import android.content.Context
+import android.util.Log
 import android.widget.ImageView
+import com.novelight.application.data.RanobeRepositori
 import com.novelight.application.data.entities.RoomBook
 import com.novelight.application.data.entities.RoomRelease
 import com.novelight.application.data.entities.RoomSerie
@@ -10,6 +12,7 @@ import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeStaff
+import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobePublicationStatus
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -41,7 +44,18 @@ class CustomUtils {
         }
 
         fun getRanobeSerieImageFilename(serie: RanobeSerieModel): String {
-            return serie.books.get(serie.books.lastIndex).image.filename
+            val fullSerie: RanobeSerieModel? = RanobeRepositori.getSerie(serie.id)
+            var index: Int? = fullSerie?.books?.lastIndex
+            var imageFilename: String? = null
+
+            if (index != null) {
+                while (index >= 0 && imageFilename == null) {
+                    imageFilename = fullSerie?.books?.get(index)?.image?.filename
+                    index--
+                }
+            }
+
+            return imageFilename.toString()
         }
 
         fun getRanobeTitleQuery(query: String): String {
@@ -53,11 +67,14 @@ class CustomUtils {
         }
 
         fun getRoomSerieFromRanobeSerie(ranobeSerie: RanobeSerieModel): RoomSerie {
+            val bookDescription: String = ranobeSerie.book_description?.description ?: ""
+            val publicationStatus: RanobePublicationStatus = ranobeSerie.publication_status ?: RanobePublicationStatus.UNKNOWN
+
             return RoomSerie(
                 id = ranobeSerie.id,
                 title = ranobeSerie.title,
-                publication_status = ranobeSerie.publication_status,
-                book_description = ranobeSerie.book_description.description,
+                publication_status = publicationStatus,
+                book_description = bookDescription,
                 favourite = false,
                 imageFileName = getRanobeSerieImageFilename(serie = ranobeSerie)
             )
@@ -68,7 +85,9 @@ class CustomUtils {
                 id = ranobeBook.id,
                 serieId = serieId,
                 title = ranobeBook.title,
-                releaseDate = ranobeBook.c_release_date
+                releaseDate = ranobeBook.c_release_date,
+                imageFileName = ranobeBook.image.filename,
+                language = ranobeBook.lang
             )
         }
 

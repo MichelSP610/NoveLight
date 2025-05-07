@@ -7,7 +7,7 @@
     android:layout_marginTop="5dp">
 
     <LinearLayout
-        android:id="@+id/bookLayout"
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/SerieBooksBackgroundColor"
@@ -19,17 +19,11 @@
             android:layout_margin="3dp"
             android:orientation="horizontal">
 
-<!--            <TextView-->
-<!--                android:id="@+id/bookNumber"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="X" />-->
-
             <TextView
-                android:id="@+id/bookTitle"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Book Title"
+                android:text="@string/title"
                 android:textColor="@color/white"/>
 
         </LinearLayout>
@@ -41,11 +35,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/bookReleaseDate"
+                android:id="@+id/releaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01/01/0001"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:text="@string/placeholder_date"/>
         </LinearLayout>
 
 

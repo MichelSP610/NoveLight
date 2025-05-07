@@ -10,6 +10,7 @@ import com.novelight.application.data.RoomRepositori
 import com.novelight.application.data.entities.RoomBook
 import com.novelight.application.data.entities.RoomRelease
 import com.novelight.application.data.entities.RoomSerie
+import com.novelight.application.data.entities.RoomSerieStaffCrossRef
 import com.novelight.application.data.entities.RoomSerieWithBooks
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
@@ -30,25 +31,11 @@ class SelectedSerieViewModel: ViewModel() {
 
     //TODO: this function has to be changed so the update is done in another thread and the serie loads faster
     fun loadSelectedSerie(context: Context) {
-        _selectedSerie.postValue(null)
-        val ranobeSerie: RanobeSerieModel? = RanobeRepositori.getSerie(id = selectedSerieId)
-        ranobeSerie?.books?.forEach { book ->
-            val ranobeBook: RanobeBook? = RanobeRepositori.getBook(book.id)
-            val roomBook: RoomBook = CustomUtils.getRoomBookFromRanobeBook(book, ranobeSerie.id)
-            RoomRepositori.addBook(context, roomBook)
-            ranobeBook?.releases?.forEach { release ->
-                val roomRelease: RoomRelease = CustomUtils.getRoomReleaseFromRanobeRelease(release, ranobeBook.id)
-                RoomRepositori.addRelease(context, roomRelease)
-            }
-        }
-        Log.i("SERIE ID SHOULD RETRIEVE", selectedSerieId.toString())
-        val roomSerie: RoomSerie? = RoomRepositori.getSerie(context, selectedSerieId)
-        val completeSerie: RoomSerieWithBooks? = RoomRepositori.getSerieWithBooks(context, selectedSerieId)
-        Log.i("SELECTED SERIE", roomSerie.toString())
-        Log.i("SELECTED COMPLETE SERIE", completeSerie.toString())
-        if (completeSerie != null) {
-            _selectedSerie.postValue(completeSerie)
-        }
+        _selectedSerie.postValue(RoomRepositori.getSerieWithBooks(context, selectedSerieId))
+
+        Thread {
+            updateSerieInformation(context)
+        }.start()
     }
 
     fun updateSelectedSerieInLibrary(context: Context, toggle: Boolean) {
@@ -57,5 +44,35 @@ class SelectedSerieViewModel: ViewModel() {
 
     fun deleteSelectedSerieFromLibrary(context: Context) {
         RoomRepositori.deleteSerie(context, selectedSerieId)
+    }
+
+    private fun updateSerieInformation(context: Context) {
+        val ranobeSerie: RanobeSerieModel? = RanobeRepositori.getSerie(id = selectedSerieId)
+        Log.i("Serie", ranobeSerie.toString())
+
+        if (ranobeSerie != null) {
+            RoomRepositori.updateSerie(context, CustomUtils.getRoomSerieFromRanobeSerie(ranobeSerie))
+
+            ranobeSerie.books?.forEach { book ->
+                val ranobeBook: RanobeBook? = RanobeRepositori.getBook(book.id)
+                val roomBook: RoomBook = CustomUtils.getRoomBookFromRanobeBook(book, ranobeSerie.id)
+                RoomRepositori.addBook(context, roomBook)
+
+                ranobeBook?.releases?.forEach { release ->
+                    val roomRelease: RoomRelease = CustomUtils.getRoomReleaseFromRanobeRelease(release, ranobeBook.id)
+                    RoomRepositori.addRelease(context, roomRelease)
+                }
+            }
+
+            ranobeSerie.staff?.forEach {
+                RoomRepositori.addStaff(context, CustomUtils.getRoomStaffFromRanobeStaff(it))
+                RoomRepositori.addSerieStaffCrosRef(context, RoomSerieStaffCrossRef(ranobeSerie.id, it.name))
+            }
+
+            val completeSerie: RoomSerieWithBooks? = RoomRepositori.getSerieWithBooks(context, selectedSerieId)
+            if (completeSerie != null) {
+                _selectedSerie.postValue(completeSerie)
+            }
+        }
     }
 }

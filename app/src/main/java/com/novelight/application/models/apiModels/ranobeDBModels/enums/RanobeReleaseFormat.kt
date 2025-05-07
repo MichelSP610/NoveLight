@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 enum class RanobeReleaseFormat(val value: String) {
     @SerializedName("digital")
-    DIGITAL("digital"),
+    DIGITAL("Digital"),
 
     @SerializedName("print")
-    PRINT("print"),
+    PRINT("Print"),
 
     @SerializedName("audio")
-    AUDIO("audio"),
+    AUDIO("Audio"),
 }

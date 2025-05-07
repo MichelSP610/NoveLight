@@ -87,5 +87,12 @@
         <action
             android:id="@+id/action_seriesFragment2_to_readFragment2"
             app:destination="@id/readFragment2" />
+        <action
+            android:id="@+id/action_seriesFragment2_to_bookFragment"
+            app:destination="@id/bookFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bookFragment"
+        android:name="com.novelight.application.fragments.BookFragment"
+        android:label="BookFragment" />
 </navigation>

@@ -19,6 +19,6 @@ interface RoomBookDAO {
 
     @Transaction
     @Query("select * from Book where id = :bookId")
-    fun getBookWithReleases(bookId: Int): LiveData<RoomBookWithRelease>
+    fun getBookWithReleases(bookId: Int): RoomBookWithRelease
 
 }

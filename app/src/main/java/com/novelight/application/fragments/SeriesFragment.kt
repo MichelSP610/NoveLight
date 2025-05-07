@@ -1,30 +1,31 @@
 package com.novelight.application.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.novelight.application.R
-import com.novelight.application.adapters.BooksAdapter
+import com.novelight.application.adapters.SerieBooksAdapter
 import com.novelight.application.data.entities.RoomSerieWithBooks
 import com.novelight.application.data.entities.RoomStaff
 import com.novelight.application.databinding.FragmentSeriesBinding
-import com.novelight.application.models.apiModels.ranobeDBModels.RanobeStaff
 import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobePublicationStatus
 import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobeStaffRoleType
 import com.novelight.application.utils.CustomUtils
+import com.novelight.application.viewModels.SelectedBookViewModel
 import com.novelight.application.viewModels.SelectedSerieViewModel
 
 class SeriesFragment : Fragment() {
 
     private lateinit var binding: FragmentSeriesBinding
     private val selectedSerieViewModel: SelectedSerieViewModel by activityViewModels<SelectedSerieViewModel>()
+    private val selectedBookViewModel: SelectedBookViewModel by activityViewModels<SelectedBookViewModel>()
 
-    //TODO: images for author, artist and status need to be added
     //TODO: make the fragment not interactable while loading
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,22 +58,27 @@ class SeriesFragment : Fragment() {
 
     private fun updateView(selectedSerie: RoomSerieWithBooks?) {
         if (selectedSerie != null) {
-            binding.serieBooksRecycler.adapter = BooksAdapter(selectedSerie.books)
+            binding.serieBooksRecycler.adapter = SerieBooksAdapter(selectedSerie.books, findNavController(), selectedBookViewModel)
             binding.serieTitle.text = selectedSerie.serie.title
 
-            val author: RoomStaff = selectedSerie.staff.find {
-                it.roleType == RanobeStaffRoleType.AUTHOR
-            }!!
+            if (!selectedSerie.staff.isEmpty()) {
+                val author: RoomStaff? = selectedSerie.staff.find {
+                    it.roleType == RanobeStaffRoleType.AUTHOR
+                }
 
-            if (author.romaji != null) {binding.serieAuthorName.text = author.romaji}
-            else {binding.serieAuthorName.text = author.name}
+                if (author?.romaji != null) {binding.serieAuthorName.text = author.romaji}
+                else {binding.serieAuthorName.text = author?.name}
 
-            val artist: RoomStaff = selectedSerie.staff.find {
-                it.roleType == RanobeStaffRoleType.ARTIST
-            }!!
+                val artist: RoomStaff? = selectedSerie.staff.find {
+                    it.roleType == RanobeStaffRoleType.ARTIST
+                }
 
-            if (artist.romaji != null) {binding.serieArtistName.text = artist.romaji}
-            else {binding.serieArtistName.text = artist.name}
+                if (artist?.romaji != null) {binding.serieArtistName.text = artist.romaji}
+                else {binding.serieArtistName.text = artist?.name}
+            } else {
+                binding.serieAuthorName.text = "Author"
+                binding.serieArtistName.text = "Artist"
+            }
 
             binding.serieStatusName.text = selectedSerie.serie.publication_status.value
 
