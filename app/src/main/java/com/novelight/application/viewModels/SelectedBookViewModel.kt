@@ -9,6 +9,7 @@ import com.novelight.application.data.RoomRepositori
 import com.novelight.application.data.entities.RoomBookWithRelease
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeBook
 import com.novelight.application.utils.CustomUtils
+import kotlinx.coroutines.runBlocking
 
 class SelectedBookViewModel: ViewModel() {
     private var selectedBookId: Int = 0
@@ -24,7 +25,9 @@ class SelectedBookViewModel: ViewModel() {
     fun loadSelectedBook(context: Context) {
         loadBook(context)
         Thread {
-            updateSelectedBook(context)
+            runBlocking {
+                updateSelectedBook(context)
+            }
         }.start()
     }
 
@@ -32,7 +35,7 @@ class SelectedBookViewModel: ViewModel() {
         _selectedBook.postValue(RoomRepositori.getBookWithReleases(context, selectedBookId))
     }
 
-    private fun updateSelectedBook(context: Context) {
+    private suspend fun updateSelectedBook(context: Context) {
         val ranobeBook: RanobeBook? = RanobeRepositori.getBook(selectedBookId)
         ranobeBook.let {
             if (ranobeBook!!.id != 0) {

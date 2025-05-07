@@ -19,6 +19,15 @@ interface RanobeService {
     @GET("book/{id}")
     fun getBook(@Path("id") id: Int): Call<RanobeGetBook>
 
+    @GET("series")
+    fun searchSeriesByTitle(
+        @Query("q") title: String,
+        @Query("sort") sort: String = "Relevance desc",
+        @Query("rl") rl: String = "en",
+        @Query("limit") limit: Int = 25
+    ): Call<RanobeGetSeries>
+
+
 
 //    @GET("releases?q=Sword%20Art%20Online%20Progressive&rl=en&sort=Release+date+desc&limit=25&rf=print")
 //    fun getReleases(): Call<RanobeReleasesModel>

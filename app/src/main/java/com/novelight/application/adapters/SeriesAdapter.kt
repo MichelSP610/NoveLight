@@ -14,6 +14,7 @@ import com.novelight.application.R
 import com.novelight.application.data.entities.RoomSerie
 import com.novelight.application.fragments.mainfragments.ExploreFragment
 import com.novelight.application.models.apiModels.ranobeDBModels.RanobeSerieModel
+import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobePublicationStatus
 import com.novelight.application.utils.CustomUtils
 import com.novelight.application.viewModels.SelectedSerieViewModel
 import com.squareup.picasso.Picasso
@@ -69,4 +70,6 @@ class SeriesAdapter(private val mList: List<RoomSerie>, private val fragment: Fr
         val novelLayout: RelativeLayout = itemView.findViewById(R.id.novelLayout)
         val novelImage: ImageView = itemView.findViewById(R.id.novelImage)
     }
+
+
 }
