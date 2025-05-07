@@ -6,6 +6,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/menuColor"
         tools:context=".Home">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="10dp"
+                android:background="@color/menuColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +48,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/menuColor"
+            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/white"
             app:menu="@menu/bottom_menu"
             app:labelVisibilityMode="labeled" />
 

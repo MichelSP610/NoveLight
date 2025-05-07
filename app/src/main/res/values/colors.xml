@@ -5,4 +5,5 @@
     <color name="background_Color">#525264</color>
     <color name="SerieBooksBackgroundColor">#454554</color>
     <color name="spinnerTextColor">#808080</color>
+    <color name="menuColor">#3B3B4D</color>
 </resources>
