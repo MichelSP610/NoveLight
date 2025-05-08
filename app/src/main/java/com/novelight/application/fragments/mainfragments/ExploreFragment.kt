@@ -66,5 +66,10 @@ class ExploreFragment : Fragment() {
         binding.progressBar.setVisibility(View.GONE)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        filterViewModel.setQuery("") // Reset the shared search query when leaving Explore
+    }
+
 
 }

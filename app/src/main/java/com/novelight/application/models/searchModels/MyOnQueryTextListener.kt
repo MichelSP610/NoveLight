@@ -25,7 +25,7 @@ class MyOnQueryTextListener(private val viewModel: FilterViewModel): SearchView.
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        // Don't run search on every key stroke
+        viewModel.setQuery(query ?: "")
         return false
     }
 }

@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.novelight.application.R
 import com.novelight.application.adapters.SeriesAdapter
 import com.novelight.application.data.entities.RoomSerie
 import com.novelight.application.databinding.FragmentLibraryBinding
@@ -43,15 +45,29 @@ class LibraryFragment : Fragment() {
 //            }).start()
 //        })
 
-        libraryViewModel.librarySeries.observe(viewLifecycleOwner, Observer { series ->
-            updateRecycler(series)
-        })
         filterViewModel.query.observe(viewLifecycleOwner) { query ->
-            libraryViewModel.searchSeriesByTitle(requireContext(), query)
+            if (query.isNullOrBlank()) {
+                libraryViewModel.loadSeries(requireContext()) // <- this refreshes full list
+            } else {
+                libraryViewModel.searchSeriesByTitle(requireContext(), query)
+            }
         }
 
-        libraryViewModel.filteredSeries.observe(viewLifecycleOwner) { results ->
-            updateRecycler(results)
+        libraryViewModel.librarySeries.observe(viewLifecycleOwner) { allSeries ->
+            filterViewModel.query.value?.let { query ->
+                if (query.isNullOrBlank()) {
+                    updateRecycler(allSeries)
+                }
+            }
+        }
+
+        libraryViewModel.filteredSeries.observe(viewLifecycleOwner) { filtered ->
+            if (filterViewModel.query.value.isNullOrBlank()) {
+                // If query is blank, show full list
+                libraryViewModel.librarySeries.value?.let { updateRecycler(it) }
+            } else {
+                updateRecycler(filtered)
+            }
         }
 
 

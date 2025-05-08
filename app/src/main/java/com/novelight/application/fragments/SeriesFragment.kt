@@ -17,6 +17,7 @@ import com.novelight.application.databinding.FragmentSeriesBinding
 import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobePublicationStatus
 import com.novelight.application.models.apiModels.ranobeDBModels.enums.RanobeStaffRoleType
 import com.novelight.application.utils.CustomUtils
+import com.novelight.application.viewModels.LibraryViewModel
 import com.novelight.application.viewModels.SelectedBookViewModel
 import com.novelight.application.viewModels.SelectedSerieViewModel
 
@@ -25,6 +26,8 @@ class SeriesFragment : Fragment() {
     private lateinit var binding: FragmentSeriesBinding
     private val selectedSerieViewModel: SelectedSerieViewModel by activityViewModels<SelectedSerieViewModel>()
     private val selectedBookViewModel: SelectedBookViewModel by activityViewModels<SelectedBookViewModel>()
+    private val libraryViewModel: LibraryViewModel by activityViewModels()
+
 
     //TODO: make the fragment not interactable while loading
     override fun onCreateView(
@@ -49,6 +52,7 @@ class SeriesFragment : Fragment() {
                 requireContext(),
                 binding.serieLibraryToggleButton.isChecked
             )
+            libraryViewModel.refreshLibrary(requireContext())
         }
 
         binding.serieBooksRecycler.setHasFixedSize(false)
